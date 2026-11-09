@@ -11,7 +11,6 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
   return (
     <section className="section">
       <div className="wrap stack" style={{ maxWidth: 760 }}>
-        <p className="eyebrow">Something went wrong</p>
         <h1 className="h1">This page could not be loaded.</h1>
         <p className="lede">
           Please try again. If the problem continues, use the contact page and mention the code below.

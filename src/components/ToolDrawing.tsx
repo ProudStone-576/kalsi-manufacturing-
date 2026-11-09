@@ -110,7 +110,7 @@ const drawings: Record<DrawingId, () => ReactNode> = {
       <path className="edge" d="M220 28L232 42M220 172L232 158" />
       <path className="c" d="M190 100h52" />
       <VDim x={262} y1={28} y2={172} label="ØD" />
-      <text x="216" y="192" textAnchor="middle">SECTION · PROFILE TO PART</text>
+      <text x="216" y="192" textAnchor="middle">SECTION: PROFILE TO PART</text>
     </>
   ),
   "slitting-cutter": () => (

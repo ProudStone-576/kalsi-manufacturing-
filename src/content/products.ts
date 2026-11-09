@@ -27,6 +27,11 @@ export type Product = {
   keywords: string[];
 };
 
+const SIZE_TO_ORDER = { label: "Size", detail: "Made to your drawing, sample or specification." };
+const STEEL_GRADE = { label: "Grade", detail: "Tool steel chosen for the application." };
+const built = (noun: string) =>
+  `Each ${noun} is made from carefully selected tool steel, heat-treated for the right balance of hardness and toughness, then precision-ground to tight tolerances.`;
+
 export const products: Product[] = [
   {
     slug: "shearing-blades",
@@ -35,12 +40,12 @@ export const products: Product[] = [
     summary: "Straight and custom-profile blades for cutting metal sheets and plates cleanly and accurately.",
     overview: [
       "Our shearing blades cut metal sheets and plates cleanly and accurately, so sheets can be cut to the customised sizes needed for further work.",
-      "Each blade is made from carefully selected tool steel, heat-treated for the right balance of hardness and toughness, then precision-ground to tight tolerances.",
+      built("blade"),
     ],
     uses: ["Cutting metal sheets", "Cutting metal plates", "Cutting sheets to customised sizes"],
     options: [
       { label: "Profile", detail: "Straight, or a custom profile." },
-      { label: "Size", detail: "Made to your drawing, sample or specification." },
+      SIZE_TO_ORDER,
     ],
     drawing: "shear-blade",
     keywords: ["shear blade", "sheet", "plate", "straight blade", "custom profile"],
@@ -52,12 +57,12 @@ export const products: Product[] = [
     summary: "Cutters that trim the extra sheet left after the draw process, leaving product corners and edges free.",
     overview: [
       "Trimming cutters remove the extra sheet left on a part after the draw process, so the product's corners and edges come out free and clean.",
-      "Each cutter is made from carefully selected tool steel, heat-treated for the right balance of hardness and toughness, then precision-ground to tight tolerances.",
+      built("cutter"),
     ],
     uses: ["Trimming extra sheet after drawing", "Freeing product corners and edges"],
     options: [
       { label: "Profile", detail: "To suit the part being trimmed." },
-      { label: "Size", detail: "Made to your drawing, sample or specification." },
+      SIZE_TO_ORDER,
     ],
     drawing: "trimming-cutter",
     keywords: ["trimming cutter", "trim", "draw", "deep drawing", "edge", "corner"],
@@ -69,12 +74,12 @@ export const products: Product[] = [
     summary: "Cutters for slitting on decoiler machines, making narrow strips with minimum burr.",
     overview: [
       "Slitting cutters are used on decoiler machines to slit material into narrow strips with minimum burr.",
-      "Each cutter is made from carefully selected tool steel, heat-treated for the right balance of hardness and toughness, then precision-ground to tight tolerances.",
+      built("cutter"),
     ],
     uses: ["Slitting on decoiler machines", "Making narrow strips with minimum burr"],
     options: [
-      { label: "Size", detail: "Made to your drawing, sample or specification." },
-      { label: "Grade", detail: "Tool steel chosen for the application." },
+      SIZE_TO_ORDER,
+      STEEL_GRADE,
     ],
     drawing: "slitting-cutter",
     keywords: ["slitting cutter", "slitter", "decoiler", "strip", "coil", "burr"],
@@ -91,7 +96,7 @@ export const products: Product[] = [
     uses: ["Piercing holes in metal", "Piercing holes in other materials"],
     options: [
       { label: "Size & shape", detail: "Made to your drawing, sample or specification." },
-      { label: "Grade", detail: "Tool steel chosen for the application." },
+      STEEL_GRADE,
     ],
     drawing: "punch",
     keywords: ["piercing punch", "punch", "hole", "press tool", "piercing"],
@@ -108,7 +113,7 @@ export const products: Product[] = [
     uses: ["Marking products", "Numbering parts", "Coding for identification and traceability"],
     options: [
       { label: "Marking", detail: "Characters, numbers or codes to your specification." },
-      { label: "Size", detail: "Made to your drawing, sample or specification." },
+      SIZE_TO_ORDER,
     ],
     drawing: "stamp",
     keywords: ["steel stamp", "marking", "numbering", "coding", "traceability", "letter punch"],

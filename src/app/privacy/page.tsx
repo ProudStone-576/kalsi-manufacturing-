@@ -13,7 +13,6 @@ export default function PrivacyPage() {
     <>
       <PageHead
         crumbs={[{ href: "/privacy", label: "Privacy notice" }]}
-        label="Privacy"
         title="Privacy notice"
         lede="What this website collects, why, and what you can ask us to do with it."
       />

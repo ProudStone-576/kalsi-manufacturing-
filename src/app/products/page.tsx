@@ -38,9 +38,8 @@ export default async function ProductsPage({ searchParams }: Props) {
     <>
       <PageHead
         crumbs={[{ href: "/products", label: "Products" }]}
-        label="Product catalogue"
         title="Precision tools to cut and mark"
-        lede="Shearing blades, trimming and slitting cutters, steel piercing punches and steel stamps. We also make tools to your drawing, sample or specification — add the ones you need to a quote list and send them together."
+        lede="Shearing blades, trimming and slitting cutters, steel piercing punches and steel stamps. We also make tools to your drawing, sample or specification. Add the ones you need to a quote list and send them together."
         photo={photos.guillotineShear}
       />
       <section className="section section--tight">

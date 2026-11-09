@@ -32,6 +32,7 @@ function read(): QuoteItem[] {
     const v = window.localStorage.getItem(KEY);
     return v ? sanitize(JSON.parse(v)) : EMPTY;
   } catch {
+    // Storage blocked or holding corrupt JSON: start from an empty list rather than break the page.
     return EMPTY;
   }
 }

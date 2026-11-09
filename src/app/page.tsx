@@ -6,7 +6,6 @@ import { PhotoTile } from "@/components/PhotoTile";
 import { PhotoBand } from "@/components/PhotoBand";
 import { ProductCard } from "@/components/ProductCard";
 import { ToolDrawing } from "@/components/ToolDrawing";
-import { ArrowRight } from "@/components/icons";
 import { categories, products } from "@/content/products";
 import { company } from "@/content/company";
 import { categoryPhoto, photos } from "@/content/images";
@@ -57,19 +56,17 @@ export default function HomePage() {
       <section className="section" aria-labelledby="intro-title">
         <div className="wrap split">
           <div className="stack">
-            <p className="eyebrow">
-              {company.name} · Since {company.foundedYear}
-            </p>
             <h2 id="intro-title" className="h2">
               A tool should do its job cleanly, consistently and for a long time.
             </h2>
             <p className="lede">
-              {company.name} manufactures precision tools for industrial use. Manufacturers across the globe rely on our
-              tools to keep their production lines running accurately and efficiently.
+              Since {company.foundedYear}, {company.name} has manufactured precision tools for industrial use.
+              Manufacturers across the globe rely on our tools to keep their production lines running accurately and
+              efficiently.
             </p>
             <div className="btn-row">
               <Link href="/products" className="btn">
-                Browse our products <ArrowRight />
+                Browse our products
               </Link>
               <Link href="/about" className="btn btn--ghost">
                 About us
@@ -82,7 +79,7 @@ export default function HomePage() {
             </div>
             <div className="photo-stack__card">
               <ToolDrawing id="shear-blade" title="Shearing blade" />
-              <p className="photo-stack__caption">Shearing blade · illustrative</p>
+              <p className="photo-stack__caption">Shearing blade (illustrative)</p>
             </div>
           </div>
         </div>
@@ -92,9 +89,8 @@ export default function HomePage() {
         <div className="wrap">
           <div className="section-head section-head--split">
             <div className="stack-sm">
-              <p className="eyebrow">What we make</p>
               <h2 id="range-title" className="h2">
-                Tools to cut and mark.
+                What we make
               </h2>
             </div>
             <p className="lede">{CUSTOM_WORK}</p>
@@ -117,8 +113,8 @@ export default function HomePage() {
 
       <PhotoBand photo={photos.furnace} tall>
         <div className="stack" style={{ maxWidth: 640 }}>
-          <p className="eyebrow eyebrow--light">How our tools are made</p>
-          <h2 className="h2">{MAKING_RESULT}</h2>
+          <h2 className="h2">How our tools are made</h2>
+          <p className="lede">{MAKING_RESULT}</p>
         </div>
         <ol className="band-steps">
           {MAKING_STEPS.map((s, i) => (
@@ -135,14 +131,13 @@ export default function HomePage() {
         <div className="wrap">
           <div className="section-head section-head--split">
             <div className="stack-sm">
-              <p className="eyebrow">Products</p>
               <h2 id="products-title" className="h2">
-                Our product range.
+                Our product range
               </h2>
             </div>
             <div>
               <Link href="/products" className="link-arrow">
-                All products <ArrowRight />
+                All products
               </Link>
             </div>
           </div>
@@ -157,9 +152,8 @@ export default function HomePage() {
       <section className="section section--white section--rule" aria-labelledby="why-title">
         <div className="wrap">
           <div className="section-head">
-            <p className="eyebrow">Why choose us</p>
             <h2 id="why-title" className="h2">
-              What you can expect from us
+              Why choose us
             </h2>
           </div>
           <ol className="steps">
@@ -176,9 +170,8 @@ export default function HomePage() {
       <section className="section" aria-labelledby="send-title">
         <div className="wrap split">
           <div className="stack">
-            <p className="eyebrow">Custom tools</p>
             <h2 id="send-title" className="h2">
-              What to send us.
+              What to send us
             </h2>
             <p className="lede">We make tools to your exact requirements. Tell us what you need:</p>
             <ul className="check-list">
@@ -188,7 +181,7 @@ export default function HomePage() {
             </ul>
             <div className="btn-row">
               <Link href="/contact?type=quote" className="btn btn--accent">
-                Start a quote request <ArrowRight />
+                Start a quote request
               </Link>
             </div>
           </div>

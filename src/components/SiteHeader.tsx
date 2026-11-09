@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuoteList } from "@/lib/quote-store";
 import { company } from "@/content/company";
 import { SearchDialog } from "./SearchDialog";
-import { ArrowRight, BrandMark, CloseIcon, ListIcon, MenuIcon, SearchIcon } from "./icons";
+import { BrandMark, CloseIcon, ListIcon, MenuIcon, SearchIcon } from "./icons";
 
 export const NAV = [
   { href: "/products", label: "Products" },
@@ -98,7 +98,7 @@ export function SiteHeader() {
             {count > 0 && <span className="count-badge">{count}</span>}
           </Link>
           <Link href="/contact?type=quote" className="btn btn--accent btn--sm header-quote">
-            Request a quote <ArrowRight />
+            Request a quote
           </Link>
           <button
             ref={toggleRef}
@@ -119,19 +119,19 @@ export function SiteHeader() {
           <ul>
             <li>
               <Link href="/" aria-current={pathname === "/" ? "page" : undefined}>
-                Home <ArrowRight />
+                Home
               </Link>
             </li>
             {NAV.map((n) => (
               <li key={n.href}>
                 <Link href={n.href} aria-current={isCurrent(pathname, n.href) ? "page" : undefined}>
-                  {n.label} <ArrowRight />
+                  {n.label}
                 </Link>
               </li>
             ))}
           </ul>
           <Link href="/contact?type=quote" className="btn btn--accent">
-            Request a quote <ArrowRight />
+            Request a quote
           </Link>
         </nav>
       )}

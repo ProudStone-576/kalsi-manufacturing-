@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getConfig } from "@/lib/config";
-import { enquirySchema, fieldErrors, formDataToInput, ATTACHMENT_RULES } from "@/lib/enquiry-schema";
-import { checkAttachments } from "@/lib/files";
+import { enquirySchema, fieldErrors, formDataToInput, ATTACHMENT_RULES, type Enquiry } from "@/lib/enquiry-schema";
+import { checkAttachments, type CheckedFile } from "@/lib/files";
 import { BodyTooLargeError, clientIp, isSameOrigin, readBodyLimited, wantsHtml } from "@/lib/http";
 import { SlidingWindowLimiter } from "@/lib/rate-limit";
 import { makeReference } from "@/lib/reference";
@@ -33,12 +33,12 @@ function fail(req: NextRequest, status: number, code: ErrorCode, message: string
   return NextResponse.json({ ok: false, code, message, ...extra }, { status, headers });
 }
 
-export async function POST(req: NextRequest) {
+/** Checks that need no body: origin, format, rate limit, mail readiness and declared size. */
+function rejectEarly(req: NextRequest, type: string): NextResponse | null {
   if (!isSameOrigin(req.headers, cfg.siteUrl, req.url)) {
     return fail(req, 403, "forbidden", "This form must be submitted from the website.");
   }
 
-  const type = req.headers.get("content-type") ?? "";
   if (!type.startsWith("multipart/form-data") && !type.startsWith("application/x-www-form-urlencoded")) {
     return fail(req, 415, "unsupported", "Unsupported request format.");
   }
@@ -63,6 +63,43 @@ export async function POST(req: NextRequest) {
 
   const declared = Number(req.headers.get("content-length") ?? "0");
   if (declared > MAX_BODY) return fail(req, 413, "too_large", `Attachments total more than ${ATTACHMENT_RULES.totalMb} MB.`);
+  return null;
+}
+
+/** Stores the enquiry, then emails staff. Returns false only when storing fails; a mail failure is logged. */
+async function storeAndNotify(req: NextRequest, reference: string, enquiry: Enquiry, files: CheckedFile[]): Promise<boolean> {
+  try {
+    const record = await saveEnquiry(
+      cfg.dataDir,
+      {
+        reference,
+        receivedAt: new Date().toISOString(),
+        enquiry,
+        userAgent: (req.headers.get("user-agent") ?? "").slice(0, 160),
+      },
+      files,
+    );
+
+    try {
+      await sendEnquiryMail(cfg, record, files);
+      await recordMailOutcome(cfg.dataDir, reference, "sent");
+    } catch (err) {
+      // The enquiry is safely stored; staff are alerted through logs and the mail-status file.
+      const detail = err instanceof Error ? err.message : String(err);
+      console.error(`[enquiry] ${reference} stored but mail delivery failed: ${detail}`);
+      await recordMailOutcome(cfg.dataDir, reference, "failed", detail).catch(() => undefined);
+    }
+    return true;
+  } catch (err) {
+    console.error(`[enquiry] could not store enquiry: ${err instanceof Error ? err.message : String(err)}`);
+    return false;
+  }
+}
+
+export async function POST(req: NextRequest) {
+  const type = req.headers.get("content-type") ?? "";
+  const early = rejectEarly(req, type);
+  if (early) return early;
 
   let form: FormData;
   try {
@@ -92,29 +129,7 @@ export async function POST(req: NextRequest) {
   }
 
   const reference = makeReference();
-  try {
-    const record = await saveEnquiry(
-      cfg.dataDir,
-      {
-        reference,
-        receivedAt: new Date().toISOString(),
-        enquiry: parsed.data,
-        userAgent: (req.headers.get("user-agent") ?? "").slice(0, 160),
-      },
-      files.files,
-    );
-
-    try {
-      await sendEnquiryMail(cfg, record, files.files);
-      await recordMailOutcome(cfg.dataDir, reference, "sent");
-    } catch (err) {
-      // The enquiry is safely stored; staff are alerted through logs and the mail-status file.
-      const detail = err instanceof Error ? err.message : String(err);
-      console.error(`[enquiry] ${reference} stored but mail delivery failed: ${detail}`);
-      await recordMailOutcome(cfg.dataDir, reference, "failed", detail).catch(() => undefined);
-    }
-  } catch (err) {
-    console.error(`[enquiry] could not store enquiry: ${err instanceof Error ? err.message : String(err)}`);
+  if (!(await storeAndNotify(req, reference, parsed.data, files.files))) {
     return fail(req, 500, "server", "We could not save your enquiry. Please try again, or contact us directly.");
   }
 

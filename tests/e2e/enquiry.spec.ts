@@ -115,7 +115,7 @@ test.describe("enquiry form", () => {
     await page.getByLabel("Message").fill("Do you make steel stamps with custom codes?");
     await page.getByLabel(/I agree/).check();
     await page.getByRole("button", { name: "Send enquiry" }).click();
-    await expect(page.getByText("Thank you — your enquiry has been received.")).toBeVisible();
+    await expect(page.getByText("Thank you. Your enquiry has been received.")).toBeVisible();
   });
 });
 

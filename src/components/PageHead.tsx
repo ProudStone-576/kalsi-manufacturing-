@@ -9,14 +9,12 @@ export type Crumb = { href: string; label: string };
 
 export function PageHead({
   crumbs,
-  label,
   title,
   lede,
   children,
   photo,
 }: {
   crumbs: Crumb[];
-  label?: string;
   title: string;
   lede?: ReactNode;
   children?: ReactNode;
@@ -43,7 +41,6 @@ export function PageHead({
             ))}
           </ol>
         </nav>
-        {label && <p className={photo ? "eyebrow eyebrow--light" : "eyebrow"}>{label}</p>}
         <h1 className="h1">{title}</h1>
         {lede && <p className="lede">{lede}</p>}
         {children}

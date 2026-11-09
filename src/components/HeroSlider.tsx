@@ -98,12 +98,11 @@ export function HeroSlider({ slides }: { slides: Slide[] }) {
               </div>
               <div className="hero-slide__shade" aria-hidden="true" />
               <div className="wrap hero-slide__content">
-                <p className="hero-slide__kicker">{s.kicker}</p>
                 <Heading className="hero-slide__title">{s.title}</Heading>
                 <p className="hero-slide__body">{s.body}</p>
                 <div className="btn-row">
                   <Link href={s.href} className="btn btn--accent">
-                    {s.cta} <ArrowRight />
+                    {s.cta}
                   </Link>
                   <Link href="/contact?type=quote" className="btn btn--light">
                     Request a quote

@@ -50,7 +50,6 @@ export default async function ContactPage({ searchParams }: Props) {
     <>
       <PageHead
         crumbs={[{ href: "/contact", label: "Contact" }]}
-        label="Contact & quotations"
         title="Tell us about the tool you need"
         lede="Send a drawing, a sample or your specification. We work with you to find the right tool for your machine and material."
         photo={photos.surfaceGrinder}

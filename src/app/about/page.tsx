@@ -5,7 +5,6 @@ import { PageHead } from "@/components/PageHead";
 import { PhotoBand } from "@/components/PhotoBand";
 import { photos } from "@/content/images";
 import { ToolDrawing } from "@/components/ToolDrawing";
-import { ArrowRight } from "@/components/icons";
 import { company } from "@/content/company";
 import { categories, products } from "@/content/products";
 import { catalogHref } from "@/lib/catalog";
@@ -29,7 +28,6 @@ export default function AboutPage() {
     <>
       <PageHead
         crumbs={[{ href: "/about", label: "About" }]}
-        label="About us"
         title={`${company.name}: precision tools built to cut and mark`}
         lede={`${company.name} manufactures precision tools for industrial use. Manufacturers across the globe rely on our tools to keep their production lines running accurately and efficiently.`}
         photo={photos.grindingSparks}
@@ -38,7 +36,6 @@ export default function AboutPage() {
       <section className="section">
         <div className="wrap split">
           <div className="prose stack-sm">
-            <p className="eyebrow">Since {company.foundedYear}</p>
             <h2 className="h2">A tool should do its job cleanly, consistently and for a long time.</h2>
             <p>
               Since {company.foundedYear}, we&apos;ve built our name on that one principle. Every blade, cutter, punch and
@@ -53,7 +50,7 @@ export default function AboutPage() {
             </div>
             <div className="photo-stack__card">
               <ToolDrawing id="punch" title="Steel piercing punch" />
-              <p className="photo-stack__caption">Piercing punch · illustrative</p>
+              <p className="photo-stack__caption">Piercing punch (illustrative)</p>
             </div>
           </div>
         </div>
@@ -63,9 +60,8 @@ export default function AboutPage() {
         <div className="wrap">
           <div className="section-head section-head--split">
             <div className="stack-sm">
-              <p className="eyebrow">What we make</p>
               <h2 id="make-title" className="h2">
-                Our products
+                What we make
               </h2>
             </div>
             <p className="lede">{CUSTOM_WORK}</p>
@@ -91,9 +87,8 @@ export default function AboutPage() {
       <section className="section section--rule" aria-labelledby="why-title">
         <div className="wrap">
           <div className="section-head">
-            <p className="eyebrow">Why choose us</p>
             <h2 id="why-title" className="h2">
-              What you can expect from us
+              Why choose us
             </h2>
           </div>
           <ol className="steps">
@@ -109,9 +104,8 @@ export default function AboutPage() {
 
       <section className="section section--white section--rule" aria-labelledby="mission-title">
         <div className="wrap prose stack-sm">
-          <p className="eyebrow">Our mission</p>
           <h2 id="mission-title" className="h2">
-            Tools you can rely on.
+            Our mission
           </h2>
           <p className="lede">{MISSION}</p>
         </div>
@@ -140,12 +134,11 @@ export default function AboutPage() {
       <PhotoBand photo={photos.furnace}>
         <div className="split">
           <div className="stack-sm">
-            <p className="eyebrow eyebrow--light">Next step</p>
             <h2 className="h2">Tell us the tool you need.</h2>
           </div>
           <div className="btn-row">
             <Link href="/contact?type=quote" className="btn btn--accent">
-              Request a quote <ArrowRight />
+              Request a quote
             </Link>
             <Link href="/manufacturing" className="btn btn--light">
               How our tools are made

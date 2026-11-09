@@ -2,7 +2,7 @@ import Link from "next/link";
 import { company } from "@/content/company";
 import { categories } from "@/content/products";
 import { catalogHref } from "@/lib/catalog";
-import { ArrowRight, BrandMark } from "./icons";
+import { BrandMark } from "./icons";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -13,12 +13,11 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="site-footer__cta">
           <div className="stack-sm">
-            <p className="eyebrow">Drawing, sample or specification</p>
             <p className="h2">Tell us the tool you need. We will work with you to find the right one.</p>
           </div>
           <div className="btn-row">
             <Link href="/contact?type=quote" className="btn btn--accent">
-              Request a quote <ArrowRight />
+              Request a quote
             </Link>
             <Link href="/products" className="btn btn--ghost">
               Browse the catalogue
@@ -81,7 +80,7 @@ export function SiteFooter() {
         <div className="site-footer__base">
           <span>
             © {year} {company.legalName ?? company.name}
-            {company.registrations.map((r) => ` · ${r.label} ${r.value}`).join("")}
+            {company.registrations.map((r) => `, ${r.label} ${r.value}`).join("")}
           </span>
           <span>Precision tools since {company.foundedYear}</span>
         </div>

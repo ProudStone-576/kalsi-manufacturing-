@@ -64,7 +64,7 @@ export const enquirySchema = z
       .pipe(
         z
           .string()
-          .min(10, "Tell us a little more — at least 10 characters.")
+          .min(10, "Tell us a little more: at least 10 characters.")
           .max(4000, "Message must be 4,000 characters or fewer.")
           .refine((s) => !CONTROL.test(s), "Message contains characters that are not allowed."),
       ),

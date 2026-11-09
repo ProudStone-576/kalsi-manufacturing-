@@ -15,7 +15,6 @@ export default function CreditsPage() {
     <>
       <PageHead
         crumbs={[{ href: "/credits", label: "Photo credits" }]}
-        label="Photo credits"
         title="Photographs on this site"
         lede="The photographs illustrate metalworking in general. They are used under the licences below, with thanks to their authors; they do not depict S.S. Kalsi Industries' own works."
       />
@@ -31,7 +30,7 @@ export default function CreditsPage() {
                   </div>
                   <strong>{c.title}</strong>
                   <span className="muted">
-                    By {c.author} ·{" "}
+                    By {c.author},{" "}
                     {c.licenseUrl ? (
                       <a href={c.licenseUrl} rel="noopener noreferrer license" target="_blank">
                         {c.license}
@@ -39,7 +38,7 @@ export default function CreditsPage() {
                     ) : (
                       c.license
                     )}{" "}
-                    ·{" "}
+                    ,{" "}
                     <a href={c.source} rel="noopener noreferrer" target="_blank">
                       Source
                     </a>

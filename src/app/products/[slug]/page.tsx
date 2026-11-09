@@ -6,7 +6,6 @@ import { ToolDrawing } from "@/components/ToolDrawing";
 import { ProductCard } from "@/components/ProductCard";
 import { AddToQuoteButton } from "@/components/AddToQuoteButton";
 import { JsonLd } from "@/components/JsonLd";
-import { ArrowRight } from "@/components/icons";
 import { categoryById, productBySlug, products, relatedProducts } from "@/content/products";
 import { company } from "@/content/company";
 import { catalogHref } from "@/lib/catalog";
@@ -47,14 +46,13 @@ export default async function ProductPage({ params }: Props) {
           { href: catalogHref({ category: [p.category] }), label: category.name },
           { href: `/products/${p.slug}`, label: p.name },
         ]}
-        label={category.name}
         title={p.name}
         lede={p.summary}
         photo={categoryPhoto[p.category]}
       >
         <div className="btn-row">
           <Link href={`/contact?type=quote&product=${p.slug}`} className="btn btn--accent">
-            Request a quote <ArrowRight />
+            Request a quote
           </Link>
           <AddToQuoteButton slug={p.slug} name={p.name} />
         </div>
@@ -98,7 +96,7 @@ export default async function ProductPage({ params }: Props) {
               <ToolDrawing id={p.drawing} title={p.name} />
               <figcaption className="drawing-frame__title">
                 <span>{p.name}</span>
-                <span>Illustrative · not to scale</span>
+                <span>Illustrative, not to scale</span>
               </figcaption>
             </figure>
             <div className="quote-panel">
@@ -110,7 +108,7 @@ export default async function ProductPage({ params }: Props) {
               </ul>
               <div className="btn-row">
                 <Link href={`/contact?type=quote&product=${p.slug}`} className="btn btn--accent">
-                  Request a quote <ArrowRight />
+                  Request a quote
                 </Link>
               </div>
             </div>
@@ -127,7 +125,7 @@ export default async function ProductPage({ params }: Props) {
               </h2>
               <div>
                 <Link href={catalogHref({ category: [p.category] })} className="link-arrow">
-                  All {category.name.toLowerCase()} <ArrowRight />
+                  All {category.name.toLowerCase()}
                 </Link>
               </div>
             </div>

@@ -3,10 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHead } from "@/components/PageHead";
 import { PhotoBand } from "@/components/PhotoBand";
-import { ArrowRight } from "@/components/icons";
 import { company } from "@/content/company";
 import { photos, type Photo } from "@/content/images";
-import { CUSTOM_WORK, MAKING_RESULT, MAKING_STEPS } from "@/content/process";
+import { CUSTOM_WORK, MAKING_STEPS } from "@/content/process";
 
 export const metadata: Metadata = {
   title: "Manufacturing & quality",
@@ -25,7 +24,6 @@ export default function ManufacturingPage() {
     <>
       <PageHead
         crumbs={[{ href: "/manufacturing", label: "Manufacturing & quality" }]}
-        label="Manufacturing & quality"
         title="How our tools are made"
         lede="Every blade, cutter, punch and stamp we make follows the same route: carefully selected tool steel, controlled heat treatment and precision grinding."
         photo={photos.grindingSparks}
@@ -34,7 +32,6 @@ export default function ManufacturingPage() {
       <section className="section" aria-labelledby="stages-title">
         <div className="wrap">
           <div className="section-head">
-            <p className="eyebrow">Process</p>
             <h2 id="stages-title" className="h2">
               From tool steel to finished tool
             </h2>
@@ -56,9 +53,6 @@ export default function ManufacturingPage() {
               );
             })}
           </ol>
-          <p className="lede" style={{ marginTop: 32 }}>
-            {MAKING_RESULT}
-          </p>
         </div>
       </section>
 
@@ -71,7 +65,7 @@ export default function ManufacturingPage() {
             <ul className="tag-list">
               {company.certifications.map((c) => (
                 <li key={c.name} className="tag">
-                  {c.name} — {c.issuer}
+                  {c.name}, {c.issuer}
                   {c.certificateNumber ? ` (${c.certificateNumber})` : ""}
                 </li>
               ))}
@@ -83,14 +77,13 @@ export default function ManufacturingPage() {
       <PhotoBand photo={photos.fabricationSparks}>
         <div className="split">
           <div className="stack-sm">
-            <p className="eyebrow eyebrow--light">Custom tools</p>
             <h2 className="h2">Made to your exact requirements.</h2>
           </div>
           <div className="stack-sm">
             <p className="lede">{CUSTOM_WORK}</p>
             <div className="btn-row">
               <Link href="/contact?type=quote" className="btn btn--accent">
-                Request a quote <ArrowRight />
+                Request a quote
               </Link>
             </div>
           </div>

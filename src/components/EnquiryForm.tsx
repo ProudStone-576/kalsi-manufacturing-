@@ -12,7 +12,7 @@ import {
 } from "@/lib/enquiry-schema";
 import { quoteList, useQuoteList } from "@/lib/quote-store";
 import { company } from "@/content/company";
-import { AlertIcon, ArrowRight, CheckIcon, TrashIcon, UploadIcon } from "./icons";
+import { AlertIcon, CheckIcon, TrashIcon, UploadIcon } from "./icons";
 
 type Kind = "general" | "quote";
 type Result =
@@ -195,7 +195,7 @@ export function EnquiryForm({
       <div className="stack" ref={statusRef} tabIndex={-1} role="status" aria-live="polite">
         <div className="alert alert--ok">
           <strong>
-            <CheckIcon style={{ display: "inline", verticalAlign: "-3px" }} /> Thank you — your enquiry has been received.
+            <CheckIcon style={{ display: "inline", verticalAlign: "-3px" }} /> Thank you. Your enquiry has been received.
           </strong>
           {result.reference && (
             <span>
@@ -213,7 +213,7 @@ export function EnquiryForm({
             Send another enquiry
           </button>
           <Link href="/products" className="btn">
-            Back to the catalogue <ArrowRight />
+            Back to the catalogue
           </Link>
         </div>
       </div>
@@ -437,7 +437,7 @@ export function EnquiryForm({
             <UploadIcon />
             <strong>Drop files here or choose files</strong>
             <span className="field__hint" id={`${fid("drawings")}-hint`}>
-              PDF, PNG, JPG, DXF, DWG or STEP · up to 3 files · {ATTACHMENT_RULES.sizeHint}
+              PDF, PNG, JPG, DXF, DWG or STEP, up to 3 files, {ATTACHMENT_RULES.sizeHint}
             </span>
             <input
               id={fid("drawings")}
@@ -506,7 +506,7 @@ export function EnquiryForm({
             </>
           ) : (
             <>
-              {kind === "quote" ? "Send quote request" : "Send enquiry"} <ArrowRight />
+              {kind === "quote" ? "Send quote request" : "Send enquiry"}
             </>
           )}
         </button>
