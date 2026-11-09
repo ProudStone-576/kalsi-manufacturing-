@@ -146,7 +146,7 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="card-grid" data-reveal>
+          <div className="card-grid card-grid--five" data-reveal>
             {products.map((p) => (
               <ProductCard key={p.slug} product={p} />
             ))}

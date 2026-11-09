@@ -681,6 +681,33 @@ p {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
+/* Five cards without an orphan: 1 + 2×2 on tablets, 2 + 3 on desktop. */
+.card-grid--five {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .card-grid--five {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .card-grid--five > :first-child {
+    grid-column: span 2;
+  }
+  .card-grid--five .p-card__figure {
+    aspect-ratio: auto;
+    height: clamp(180px, 22vw, 240px);
+  }
+}
+@media (min-width: 1000px) {
+  .card-grid--five {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .card-grid--five > * {
+    grid-column: span 2;
+  }
+  .card-grid--five > :nth-child(-n + 2) {
+    grid-column: span 3;
+  }
+}
 .p-card {
   position: relative;
   display: grid;
