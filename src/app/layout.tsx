@@ -39,7 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const nonce = (await headers()).get("x-nonce") ?? undefined;
   const origin = siteOrigin();
   return (
-    <html lang="en" className={`${archivo.variable} ${plex.variable} ${plexMono.variable}`} suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={`${archivo.variable} ${plex.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <body>
         {/* Marks that JavaScript is running so no-JS fallbacks (e.g. "Apply filters") can hide. */}
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

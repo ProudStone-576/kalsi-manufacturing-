@@ -28,7 +28,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Enquiry records and drawings must never be bundled into a build.
   outputFileTracingExcludes: { "*": ["data/**", "tests/**", "docs/**"] },
-  images: { formats: ["image/avif", "image/webp"] },
+  // Every `quality` passed to next/image must be listed here; unlisted values are snapped to the nearest one with a warning.
+  images: { formats: ["image/avif", "image/webp"], qualities: [60, 70, 72, 75] },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
