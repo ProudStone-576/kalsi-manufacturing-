@@ -36,6 +36,11 @@ export function SiteFooter() {
             </Link>
             {company.locations[0] && <address style={{ fontStyle: "normal" }}>{company.locations[0].lines.join(", ")}</address>}
             {company.phone && <a href={`tel:${company.phone.replace(/\s+/g, "")}`}>{company.phone}</a>}
+            {company.whatsapp && (
+              <a href={`https://wa.me/${company.whatsapp}`} rel="noopener noreferrer" target="_blank">
+                WhatsApp
+              </a>
+            )}
             {company.email && <a href={`mailto:${company.email}`}>{company.email}</a>}
           </div>
           <div>

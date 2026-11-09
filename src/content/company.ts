@@ -19,7 +19,7 @@ export const company = {
   /** Public sales mailbox shown on the site (enquiries are delivered via ENQUIRY_TO). */
   email: "sskalsiind@gmail.com" as string | null,
   /** WhatsApp number in international format without spaces, e.g. "9198xxxxxxxx". */
-  whatsapp: null as string | null,
+  whatsapp: "919891332220" as string | null,
   locations: [
     {
       label: "Address",
