@@ -62,6 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             ...(company.email ? { email: company.email } : {}),
             ...(company.phone ? { telephone: company.phone } : {}),
             ...(company.foundedYear ? { foundingDate: String(company.foundedYear) } : {}),
+            ...(company.locations[0] ? { address: company.locations[0].lines.join(", ") } : {}),
           }}
         />
       </body>

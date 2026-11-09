@@ -15,12 +15,18 @@ export const company = {
   legalName: null as string | null,
   foundedYear: 2010 as number | null,
   /** International format, e.g. "+91 98xxxxxxx". Rendered as a tel: link. */
-  phone: null as string | null,
+  phone: "+91 98913 32220" as string | null,
   /** Public sales mailbox shown on the site (enquiries are delivered via ENQUIRY_TO). */
-  email: null as string | null,
+  email: "sskalsiind@gmail.com" as string | null,
   /** WhatsApp number in international format without spaces, e.g. "9198xxxxxxxx". */
   whatsapp: null as string | null,
-  locations: [] as Location[],
+  locations: [
+    {
+      label: "Address",
+      lines: ["Plot No. 51/11, Old Press Colony", "Near Central Bank of India", "Faridabad, Haryana"],
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=28.371308%2C77.291516",
+    },
+  ] as Location[],
   certifications: [] as Certification[],
   /** GSTIN / VAT / company registration numbers to show in the footer. */
   registrations: [] as { label: string; value: string }[],
