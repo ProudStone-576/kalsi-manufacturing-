@@ -23,7 +23,7 @@ export default function PrivacyPage() {
             <h2 className="h3">What we collect</h2>
             <p>
               When you send an enquiry we receive what you enter in the form — your name, email address and, if you give
-              them, your company, phone number, country, product and machine details, message and any drawings or photos
+              them, your company, phone number, country, product details, message and any drawings or photos
               you attach. We also log the time of the enquiry and a shortened browser identifier to help detect abuse.
             </p>
           </div>

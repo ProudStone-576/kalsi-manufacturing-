@@ -19,7 +19,6 @@ type Row = [label: string, value: string];
 
 export function enquiryRows(rec: EnquiryRecord): Row[] {
   const e = rec.enquiry;
-  const mm = (n: number | null) => (n === null ? "" : `${n} mm`);
   const rows: Row[] = [
     ["Reference", rec.reference],
     ["Type", e.kind === "quote" ? "Request for quotation" : "General enquiry"],
@@ -28,13 +27,6 @@ export function enquiryRows(rec: EnquiryRecord): Row[] {
     ["Email", e.email],
     ["Phone", e.phone],
     ["Country", e.country],
-    ["Machine", e.machine],
-    ["Material worked", e.materialCut],
-    ["Material thickness", mm(e.materialThickness)],
-    ["Tool length", mm(e.bladeLength)],
-    ["Tool width", mm(e.bladeWidth)],
-    ["Tool thickness", mm(e.bladeThickness)],
-    ["Cutting edges", e.cuttingEdges === "unsure" ? "Not sure" : e.cuttingEdges],
   ];
   return rows.filter(([, v]) => v !== "");
 }

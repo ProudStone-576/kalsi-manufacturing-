@@ -21,7 +21,6 @@ describe("enquirySchema", () => {
     expect(r.name).toBe("Asha Mehta");
     expect(r.company).toBe("");
     expect(r.items).toEqual([]);
-    expect(r.bladeLength).toBeNull();
   });
 
   it("trims and normalises text", () => {
@@ -55,7 +54,7 @@ describe("enquirySchema", () => {
     expect(enquirySchema.safeParse(formDataToInput(fd({ ...base, message: "bad \u0007 bell character" }))).success).toBe(false);
   });
 
-  it("parses quote items, quantities and millimetre values", () => {
+  it("parses quote items and quantities", () => {
     const r = enquirySchema.parse(
       formDataToInput(
         fd({
@@ -63,9 +62,6 @@ describe("enquirySchema", () => {
           kind: "quote",
           itemSlug: ["shearing-blades", "slitting-cutters"],
           itemQty: ["4", "12"],
-          bladeLength: "3100",
-          bladeThickness: "25,5",
-          cuttingEdges: "4",
         }),
       ),
     );
@@ -73,20 +69,14 @@ describe("enquirySchema", () => {
       { slug: "shearing-blades", quantity: 4 },
       { slug: "slitting-cutters", quantity: 12 },
     ]);
-    expect(r.bladeLength).toBe(3100);
-    expect(r.bladeThickness).toBe(25.5);
-    expect(r.cuttingEdges).toBe("4");
   });
 
-  it("rejects unknown products, duplicates, bad quantities and bad numbers", () => {
+  it("rejects unknown products, duplicates and bad quantities", () => {
     const bad: Record<string, string | string[]>[] = [
       { itemSlug: "made-up-blade", itemQty: "1" },
       { itemSlug: ["shearing-blades", "shearing-blades"], itemQty: ["1", "1"] },
       { itemSlug: "shearing-blades", itemQty: "0" },
       { itemSlug: "shearing-blades", itemQty: "1.5" },
-      { itemSlug: "shearing-blades", itemQty: "1", bladeLength: "-3" },
-      { itemSlug: "shearing-blades", itemQty: "1", bladeLength: "1e5" },
-      { itemSlug: "shearing-blades", itemQty: "1", cuttingEdges: "3" },
     ];
     for (const b of bad) {
       expect(enquirySchema.safeParse(formDataToInput(fd({ ...base, kind: "quote", ...b }))).success, JSON.stringify(b)).toBe(false);
@@ -97,7 +87,7 @@ describe("enquirySchema", () => {
     const r = enquirySchema.safeParse(formDataToInput(fd({ ...base, kind: "quote" })));
     expect(r.success).toBe(false);
     if (!r.success) expect(fieldErrors(r.error).items).toMatch(/at least one product/);
-    expect(enquirySchema.safeParse(formDataToInput(fd({ ...base, kind: "quote", machine: "Hydraulic shear 3 m" }))).success).toBe(true);
+    expect(enquirySchema.safeParse(formDataToInput(fd({ ...base, kind: "quote", itemSlug: "steel-stamps", itemQty: "1" }))).success).toBe(true);
   });
 
   it("caps the number of items", () => {

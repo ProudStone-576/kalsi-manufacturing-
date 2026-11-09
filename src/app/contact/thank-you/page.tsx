@@ -21,7 +21,7 @@ export default async function ThankYouPage({ searchParams }: Props) {
         ]}
         label="Enquiry received"
         title="Thank you — we have your enquiry"
-        lede="Our team reviews every enquiry and replies by email. If we need more detail about the tool or the machine, we will ask."
+        lede="Our team reviews every enquiry and replies by email. If we need more detail about the tool you need, we will ask."
       />
       <section className="section section--tight">
         <div className="wrap stack">

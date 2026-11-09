@@ -32,20 +32,6 @@ const optionalLine = (label: string, max: number) =>
         .refine((s) => !CONTROL.test(s) && !LINE_BREAK.test(s), `${label} contains characters that are not allowed.`),
     );
 
-/** Optional positive number in millimetres, accepts "", "12", "12.5", "12,5". */
-const optionalMm = (label: string, max: number) =>
-  z
-    .string()
-    .optional()
-    .transform((s) => (s ?? "").trim().replace(",", "."))
-    .pipe(
-      z
-        .string()
-        .refine((s) => s === "" || /^\d{1,6}(\.\d{1,3})?$/.test(s), `${label} must be a number in millimetres.`)
-        .transform((s) => (s === "" ? null : Number(s)))
-        .refine((n) => n === null || (n > 0 && n <= max), `${label} must be between 0 and ${max} mm.`),
-    );
-
 export const PRODUCT_SLUGS = products.map((p) => p.slug) as [string, ...string[]];
 export const MAX_ITEMS = 20;
 
@@ -57,8 +43,6 @@ export const enquiryItemSchema = z.object({
     .min(1, "Quantity must be at least 1.")
     .max(10_000, "Quantity must be 10,000 or fewer."),
 });
-
-export const EDGE_OPTIONS = ["", "1", "2", "4", "unsure"] as const;
 
 export const enquirySchema = z
   .object({
@@ -85,21 +69,14 @@ export const enquirySchema = z
           .refine((s) => !CONTROL.test(s), "Message contains characters that are not allowed."),
       ),
     items: z.array(enquiryItemSchema).max(MAX_ITEMS, `Up to ${MAX_ITEMS} products per request.`).default([]),
-    machine: optionalLine("Machine", 120),
-    materialCut: optionalLine("Material worked", 120),
-    materialThickness: optionalMm("Material thickness", 1000),
-    bladeLength: optionalMm("Tool length", 20_000),
-    bladeWidth: optionalMm("Tool width", 2_000),
-    bladeThickness: optionalMm("Tool thickness", 500),
-    cuttingEdges: z.enum(EDGE_OPTIONS, { error: "Choose a number of edges." }).default(""),
     consent: z.literal("yes", { error: "Please agree so we can reply to you." }),
   })
   .superRefine((v, ctx) => {
-    if (v.kind === "quote" && v.items.length === 0 && v.machine === "" && v.bladeLength === null) {
+    if (v.kind === "quote" && v.items.length === 0) {
       ctx.addIssue({
         code: "custom",
         path: ["items"],
-        message: "Add at least one product, or give the machine or tool length, so we can quote.",
+        message: "Add at least one product so we can quote.",
       });
     }
     const slugs = v.items.map((i) => i.slug);
@@ -139,13 +116,6 @@ export function formDataToInput(fd: FormData): Record<string, unknown> {
     country: str("country"),
     message: str("message"),
     items: slugs.slice(0, MAX_ITEMS + 1).map((slug, i) => ({ slug, quantity: qtys[i] ?? "1" })),
-    machine: str("machine"),
-    materialCut: str("materialCut"),
-    materialThickness: str("materialThickness"),
-    bladeLength: str("bladeLength"),
-    bladeWidth: str("bladeWidth"),
-    bladeThickness: str("bladeThickness"),
-    cuttingEdges: str("cuttingEdges") ?? "",
     consent: str("consent"),
   };
 }

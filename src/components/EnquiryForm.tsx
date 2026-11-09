@@ -5,7 +5,6 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { products, productBySlug } from "@/content/products";
 import {
   ATTACHMENT_RULES,
-  EDGE_OPTIONS,
   enquirySchema,
   fieldErrors,
   formDataToInput,
@@ -35,13 +34,6 @@ const STATUS_MESSAGES: Record<string, string> = {
 const FIELD_ORDER = [
   "kind",
   "items",
-  "machine",
-  "materialCut",
-  "materialThickness",
-  "bladeLength",
-  "bladeWidth",
-  "bladeThickness",
-  "cuttingEdges",
   "name",
   "company",
   "email",
@@ -145,7 +137,7 @@ export function EnquiryForm({
     if (!first) return;
     const el =
       (first === "items" ? document.getElementById(fid("add")) : null) ??
-      (first === "cuttingEdges" || first === "kind" ? formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`) : null) ??
+      (first === "kind" ? formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`) : null) ??
       document.getElementById(fid(first));
     el?.focus();
   }
@@ -213,7 +205,7 @@ export function EnquiryForm({
           )}
         </div>
         <p className="lede">
-          Our team reviews every enquiry and replies by email. If we need more detail about the tool or the machine,
+          Our team reviews every enquiry and replies by email. If we need more detail about the tool you need,
           we will ask.
         </p>
         <div className="btn-row">
@@ -360,63 +352,6 @@ export function EnquiryForm({
             {errorText("items")}
           </fieldset>
 
-          <fieldset className="form-section">
-            <legend>
-              Machine &amp; tool <span className="label">Optional — fill in what you know</span>
-            </legend>
-            <div className="field-row">
-              <div className="field">
-                <label htmlFor={fid("machine")}>Machine make &amp; model</label>
-                <input className="input" type="text" maxLength={120} autoComplete="off" placeholder="e.g. hydraulic shear, decoiler, press" {...aria("machine")} />
-                {errorText("machine")}
-              </div>
-              <div className="field">
-                <label htmlFor={fid("materialCut")}>Material worked</label>
-                <input className="input" type="text" maxLength={120} autoComplete="off" placeholder="e.g. mild steel plate" {...aria("materialCut")} />
-                {errorText("materialCut")}
-              </div>
-            </div>
-            <div className="field-row">
-              <div className="field">
-                <label htmlFor={fid("materialThickness")}>
-                  Max. material thickness <span className="opt">(mm)</span>
-                </label>
-                <input className="input" type="text" inputMode="decimal" maxLength={10} {...aria("materialThickness")} />
-                {errorText("materialThickness")}
-              </div>
-              <div className="field">
-                <span className="field__label" id={fid("edges-label")}>
-                  Cutting edges
-                </span>
-                <div className="segmented" role="radiogroup" aria-labelledby={fid("edges-label")}>
-                  {EDGE_OPTIONS.filter(Boolean).map((v) => (
-                    <label key={v}>
-                      <input type="radio" name="cuttingEdges" value={v} />
-                      <span>{v === "unsure" ? "Not sure" : v}</span>
-                    </label>
-                  ))}
-                </div>
-                {errorText("cuttingEdges")}
-              </div>
-            </div>
-            <div className="field-row field-row--3">
-              {(
-                [
-                  ["bladeLength", "Tool length"],
-                  ["bladeWidth", "Tool width"],
-                  ["bladeThickness", "Tool thickness"],
-                ] as const
-              ).map(([n, l]) => (
-                <div className="field" key={n}>
-                  <label htmlFor={fid(n)}>
-                    {l} <span className="opt">(mm)</span>
-                  </label>
-                  <input className="input" type="text" inputMode="decimal" maxLength={10} {...aria(n)} />
-                  {errorText(n)}
-                </div>
-              ))}
-            </div>
-          </fieldset>
         </>
       )}
 
@@ -469,7 +404,7 @@ export function EnquiryForm({
             maxLength={4000}
             placeholder={
               kind === "quote"
-                ? "Delivery location, required date, profile or grade, how your current tools are performing…"
+                ? "Machine and material, sizes, profile or grade, delivery location, required date…"
                 : "How can we help?"
             }
             onChange={(e) => setMsgLen(e.target.value.length)}

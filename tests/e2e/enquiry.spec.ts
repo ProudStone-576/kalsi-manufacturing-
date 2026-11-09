@@ -73,10 +73,6 @@ test.describe("enquiry form", () => {
     await page.goto("/contact?type=quote&product=shearing-blades");
     await expect(page.locator(".items-table")).toContainText("Shearing blades");
     await page.getByRole("spinbutton", { name: /Quantity of Shearing blades/ }).fill("4");
-    await page.getByLabel("Machine make & model").fill("Hydraulic shear, 3 m");
-    await page.getByLabel("Material worked").fill("Mild steel plate");
-    await page.getByLabel("Tool length (mm)").fill("850");
-    await page.locator('input[name="cuttingEdges"][value="2"]').check();
     await page.getByLabel("Name", { exact: true }).fill("Gurpreet Singh");
     await page.getByLabel("Company (optional)").fill("Example Steel <Rolling> Mills");
     await page.getByLabel("Email").fill("gurpreet@example.com");
@@ -99,8 +95,6 @@ test.describe("enquiry form", () => {
       name: "Gurpreet Singh",
       company: "Example Steel <Rolling> Mills",
       items: [{ slug: "shearing-blades", quantity: 4 }],
-      bladeLength: 850,
-      cuttingEdges: "2",
     });
     expect(rec.attachments[0]?.filename).toBe("blade-drawing.pdf");
 

@@ -134,13 +134,6 @@ describe("email", () => {
         country: "",
         message: "<script>alert(1)</script>",
         items: [{ slug: "shearing-blades", quantity: 2 }],
-        machine: "",
-        materialCut: "",
-        materialThickness: null,
-        bladeLength: 3100,
-        bladeWidth: null,
-        bladeThickness: null,
-        cuttingEdges: "4",
         consent: "yes",
       },
     };
@@ -149,7 +142,6 @@ describe("email", () => {
     expect(m.html).not.toContain("<b>Mallory");
     expect(m.html).toContain("&lt;script&gt;");
     expect(m.text).toContain("Shearing blades × 2");
-    expect(m.text).toContain("Tool length: 3100 mm");
     expect(m.subject).toBe("[SSK-261101-ABCDE] RFQ from <b>Mallory</b>");
   });
 });
