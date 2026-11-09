@@ -110,7 +110,7 @@ describe("references", () => {
     const refs = new Set(Array.from({ length: 500 }, () => makeReference(new Date("2026-11-01T10:00:00Z"))));
     expect(refs.size).toBe(500);
     for (const r of refs) expect(r).toMatch(REFERENCE_PATTERN);
-    expect([...refs][0]!.startsWith("SKK-261101-")).toBe(true);
+    expect([...refs][0]!.startsWith("SSK-261101-")).toBe(true);
   });
 });
 
@@ -121,7 +121,7 @@ describe("email", () => {
 
   it("never puts raw customer input into the HTML body", () => {
     const rec: EnquiryRecord = {
-      reference: "SKK-261101-ABCDE",
+      reference: "SSK-261101-ABCDE",
       receivedAt: "2026-11-01T10:00:00.000Z",
       userAgent: "test",
       attachments: [],
@@ -133,7 +133,7 @@ describe("email", () => {
         phone: "",
         country: "",
         message: "<script>alert(1)</script>",
-        items: [{ slug: "guillotine-shear-blades", quantity: 2 }],
+        items: [{ slug: "shearing-blades", quantity: 2 }],
         machine: "",
         materialCut: "",
         materialThickness: null,
@@ -148,9 +148,9 @@ describe("email", () => {
     expect(m.html).not.toContain("<script>");
     expect(m.html).not.toContain("<b>Mallory");
     expect(m.html).toContain("&lt;script&gt;");
-    expect(m.text).toContain("Guillotine shear blades × 2");
-    expect(m.text).toContain("Blade length: 3100 mm");
-    expect(m.subject).toBe("[SKK-261101-ABCDE] RFQ from <b>Mallory</b>");
+    expect(m.text).toContain("Shearing blades × 2");
+    expect(m.text).toContain("Tool length: 3100 mm");
+    expect(m.subject).toBe("[SSK-261101-ABCDE] RFQ from <b>Mallory</b>");
   });
 });
 

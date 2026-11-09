@@ -15,15 +15,15 @@ const plex = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "
 const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-plex-mono", display: "swap" });
 
 const description =
-  "S.K. Kalsi manufactures shearing blades to drawing: guillotine and plate shear blades, rolling-mill shear blades, slitter knives, scrap shear and granulator knives.";
+  "S.S. Kalsi Industries manufactures precision tools for industrial use: shearing blades, trimming and slitting cutters, steel piercing punches and steel stamps.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin()),
-  title: { default: `${company.name} — Shearing blade manufacturer`, template: `%s · ${company.name}` },
+  title: { default: `${company.name} — Precision industrial tools`, template: `%s · ${company.name}` },
   description,
   applicationName: company.name,
   alternates: { canonical: "/" },
-  openGraph: { type: "website", siteName: company.name, title: `${company.name} — Shearing blade manufacturer`, description },
+  openGraph: { type: "website", siteName: company.name, title: `${company.name} — Precision industrial tools`, description },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
   formatDetection: { telephone: false },

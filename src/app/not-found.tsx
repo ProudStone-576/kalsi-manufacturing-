@@ -6,7 +6,7 @@ export default function NotFound() {
     <section className="section">
       <div className="wrap stack" style={{ maxWidth: 760 }}>
         <p className="eyebrow">Error 404</p>
-        <h1 className="h1">This page is not on the drawing.</h1>
+        <h1 className="h1">This page could not be found.</h1>
         <p className="lede">The address may be mistyped, or the page may have moved. These will get you back on track:</p>
         <div className="btn-row">
           <Link href="/products" className="btn">

@@ -99,7 +99,7 @@ export function EnquiryForm({
   );
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
-  // A product link (?product=slug) adds that blade to the quote list once.
+  // A product link (?product=slug) adds that product to the quote list once.
   const added = useRef(false);
   useEffect(() => {
     if (added.current || !initialProduct || !productBySlug.has(initialProduct)) return;
@@ -213,7 +213,7 @@ export function EnquiryForm({
           )}
         </div>
         <p className="lede">
-          Our team reviews every enquiry and replies by email. If we need more detail about the blade or the machine,
+          Our team reviews every enquiry and replies by email. If we need more detail about the tool or the machine,
           we will ask.
         </p>
         <div className="btn-row">
@@ -260,14 +260,14 @@ export function EnquiryForm({
         <>
           <fieldset className="form-section" id="quote-list">
             <legend>
-              Blades <span className="label">Quote list</span>
+              Products <span className="label">Quote list</span>
             </legend>
             {items.length > 0 ? (
               <table className="items-table">
-                <caption className="visually-hidden">Blades in this quote request</caption>
+                <caption className="visually-hidden">Products in this quote request</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Blade type</th>
+                    <th scope="col">Product</th>
                     <th scope="col" className="qty">
                       Quantity
                     </th>
@@ -318,13 +318,13 @@ export function EnquiryForm({
               </p>
             ) : (
               <p className="muted">
-                No blades added yet. Choose one below, or <Link href="/products">browse the catalogue</Link> and use “Add to quote
+                No products added yet. Choose one below, or <Link href="/products">browse the catalogue</Link> and use “Add to quote
                 list”.
               </p>
             )}
             {available.length > 0 && items.length < 20 && (
               <div className="field">
-                <label htmlFor={fid("add")}>Add a blade type</label>
+                <label htmlFor={fid("add")}>Add a product</label>
                 <div style={{ display: "flex", gap: 10 }}>
                   <select
                     id={fid("add")}
@@ -334,7 +334,7 @@ export function EnquiryForm({
                     aria-invalid={err("items") ? true : undefined}
                     aria-describedby={err("items") ? `${fid("items")}-err` : undefined}
                   >
-                    <option value="">Select a blade type…</option>
+                    <option value="">Select a product…</option>
                     {available.map((p) => (
                       <option key={p.slug} value={p.slug}>
                         {p.name}
@@ -362,16 +362,16 @@ export function EnquiryForm({
 
           <fieldset className="form-section">
             <legend>
-              Machine &amp; blade <span className="label">Optional — fill in what you know</span>
+              Machine &amp; tool <span className="label">Optional — fill in what you know</span>
             </legend>
             <div className="field-row">
               <div className="field">
                 <label htmlFor={fid("machine")}>Machine make &amp; model</label>
-                <input className="input" type="text" maxLength={120} autoComplete="off" placeholder="e.g. 3 m hydraulic guillotine" {...aria("machine")} />
+                <input className="input" type="text" maxLength={120} autoComplete="off" placeholder="e.g. hydraulic shear, decoiler, press" {...aria("machine")} />
                 {errorText("machine")}
               </div>
               <div className="field">
-                <label htmlFor={fid("materialCut")}>Material being cut</label>
+                <label htmlFor={fid("materialCut")}>Material worked</label>
                 <input className="input" type="text" maxLength={120} autoComplete="off" placeholder="e.g. mild steel plate" {...aria("materialCut")} />
                 {errorText("materialCut")}
               </div>
@@ -402,9 +402,9 @@ export function EnquiryForm({
             <div className="field-row field-row--3">
               {(
                 [
-                  ["bladeLength", "Blade length"],
-                  ["bladeWidth", "Blade width"],
-                  ["bladeThickness", "Blade thickness"],
+                  ["bladeLength", "Tool length"],
+                  ["bladeWidth", "Tool width"],
+                  ["bladeThickness", "Tool thickness"],
                 ] as const
               ).map(([n, l]) => (
                 <div className="field" key={n}>
@@ -469,7 +469,7 @@ export function EnquiryForm({
             maxLength={4000}
             placeholder={
               kind === "quote"
-                ? "Delivery location, required date, how the current blades are performing…"
+                ? "Delivery location, required date, profile or grade, how your current tools are performing…"
                 : "How can we help?"
             }
             onChange={(e) => setMsgLen(e.target.value.length)}

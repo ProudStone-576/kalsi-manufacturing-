@@ -3,13 +3,12 @@ import AxeBuilder from "@axe-core/playwright";
 import { watchConsole } from "./helpers";
 
 const PAGES = [
-  { path: "/", h1: /Shearing blades, made to your drawing/ },
-  { path: "/products", h1: /Shear blades & industrial knives/ },
-  { path: "/products/guillotine-shear-blades", h1: /Guillotine shear blades/ },
-  { path: "/industries", h1: /Blades for the work your machines do/ },
-  { path: "/manufacturing", h1: /How a shear blade is made/ },
-  { path: "/about", h1: /We make the blades that do the cutting/ },
-  { path: "/contact", h1: /Tell us about the blade you need/ },
+  { path: "/", h1: /Precision tools built to cut and mark/ },
+  { path: "/products", h1: /Precision tools to cut and mark/ },
+  { path: "/products/shearing-blades", h1: /Shearing blades/ },
+  { path: "/manufacturing", h1: /How our tools are made/ },
+  { path: "/about", h1: /S\.S\. Kalsi Industries: precision tools built to cut and mark/ },
+  { path: "/contact", h1: /Tell us about the tool you need/ },
   { path: "/privacy", h1: /Privacy notice/ },
   { path: "/credits", h1: /Photographs on this site/ },
 ];
@@ -22,7 +21,7 @@ test.describe("every page", () => {
       expect(res?.status()).toBe(200);
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toHaveText(p.h1);
-      await expect(page).toHaveTitle(/S\.K\. Kalsi/);
+      await expect(page).toHaveTitle(/S\.S\. Kalsi Industries/);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow).toBeLessThanOrEqual(0);
       // Audit the settled page: scroll-driven reveal animations would otherwise be measured mid-fade.
@@ -36,7 +35,7 @@ test.describe("every page", () => {
   test("unknown pages return the 404 page", async ({ page }) => {
     const res = await page.goto("/products/not-a-blade");
     expect(res?.status()).toBe(404);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/not on the drawing/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/could not be found/);
     await page.getByRole("link", { name: "Product catalogue" }).click();
     await expect(page).toHaveURL(/\/products$/);
   });
@@ -45,7 +44,7 @@ test.describe("every page", () => {
 test.describe("navigation", () => {
   test("primary navigation reaches every section", async ({ page, isMobile }) => {
     await page.goto("/");
-    const targets = ["Products", "Industries", "Manufacturing & Quality", "About", "Contact"];
+    const targets = ["Products", "Manufacturing & Quality", "About", "Contact"];
     for (const name of targets) {
       if (isMobile) {
         await page.getByRole("button", { name: "Open menu" }).click();
@@ -81,9 +80,9 @@ test.describe("navigation", () => {
 
   test("home category rows open a filtered catalogue", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /Coil processing.*Slitter knives/ }).click();
-    await expect(page).toHaveURL(/category=coil-processing/);
-    await expect(page.getByRole("status").first()).toContainText("2 of 12");
+    await page.getByRole("link", { name: /Trimming & slitting cutters.*narrow strips/ }).click();
+    await expect(page).toHaveURL(/category=trimming-slitting/);
+    await expect(page.getByRole("status").first()).toContainText("2 of 5");
   });
 
   test("footer links all resolve", async ({ page, request }) => {
@@ -107,7 +106,7 @@ test.describe("hero slide banner", () => {
     await expect(active).toHaveAttribute("aria-label", "1 of 4");
     await page.getByRole("button", { name: "Next slide" }).click();
     await expect(active).toHaveAttribute("aria-label", "2 of 4");
-    await expect(active.getByRole("link", { name: /Plate shear blades/ })).toBeVisible();
+    await expect(active.getByRole("link", { name: /Shearing blades/ })).toBeVisible();
     await page.getByRole("button", { name: "Previous slide" }).click();
     await page.getByRole("button", { name: "Previous slide" }).click();
     await expect(active).toHaveAttribute("aria-label", "4 of 4");
@@ -121,20 +120,21 @@ test.describe("hero slide banner", () => {
 
   test("slide call-to-action opens the filtered catalogue", async ({ page }) => {
     await page.goto("/");
-    await page.locator('.hero-slide[data-active="true"]').getByRole("link", { name: /Rolling mill blades/ }).click();
-    await expect(page).toHaveURL(/category=rolling-mill/);
+    await page.getByRole("button", { name: "Next slide" }).click();
+    await page.locator('.hero-slide[data-active="true"]').getByRole("link", { name: /Shearing blades/ }).click();
+    await expect(page).toHaveURL(/category=shearing-blades/);
   });
 
   test("all photographs load and are credited", async ({ page, request }) => {
     await page.goto("/credits");
     const imgs = page.locator(".credits-list img");
-    await expect(imgs).toHaveCount(15);
+    await expect(imgs).toHaveCount(7);
     for (const src of await imgs.evaluateAll((els) => els.map((e) => (e as HTMLImageElement).currentSrc || (e as HTMLImageElement).src))) {
       const res = await request.get(src);
       expect(res.status(), src).toBe(200);
       expect(res.headers()["content-type"]).toMatch(/^image\//);
     }
-    await expect(page.getByRole("link", { name: "Source" })).toHaveCount(15);
+    await expect(page.getByRole("link", { name: "Source" })).toHaveCount(7);
   });
 });
 
@@ -145,11 +145,11 @@ test.describe("site search", () => {
     else await page.keyboard.press("/");
     const box = page.getByRole("combobox", { name: "Search" });
     await expect(box).toBeFocused();
-    await box.fill("granulator");
-    await expect(page.getByRole("option").first()).toContainText("Granulator knives");
+    await box.fill("stamps");
+    await expect(page.getByRole("option").first()).toContainText("Steel stamps");
     await box.press("Enter");
-    await expect(page).toHaveURL(/\/products\/granulator-knives$/);
-    await expect(page.locator("h1")).toHaveText("Granulator knives");
+    await expect(page).toHaveURL(/\/products\/steel-stamps$/);
+    await expect(page.locator("h1")).toHaveText("Steel stamps");
   });
 
   test("arrow keys move the selection and Escape closes", async ({ page, isMobile }) => {
@@ -157,7 +157,7 @@ test.describe("site search", () => {
     await page.goto("/about");
     await page.keyboard.press("Control+k");
     const box = page.getByRole("combobox", { name: "Search" });
-    await box.fill("shear");
+    await box.fill("steel");
     await box.press("ArrowDown");
     await expect(page.getByRole("option").nth(1)).toHaveAttribute("aria-selected", "true");
     await box.press("Escape");

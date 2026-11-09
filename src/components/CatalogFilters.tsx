@@ -14,13 +14,9 @@ type Option = { value: string; label: string; count: number };
 export function CatalogFilters({
   query,
   categories,
-  industries,
-  machines,
 }: {
   query: CatalogQuery;
   categories: Option[];
-  industries: Option[];
-  machines: Option[];
 }) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
@@ -37,16 +33,12 @@ export function CatalogFilters({
   }
 
   // Checkbox state mirrors the URL, but updates instantly on click (controlled, no remount, focus kept).
-  const urlKey = JSON.stringify([query.category, query.industry, query.machine]);
+  const urlKey = JSON.stringify(query.category);
   const [lastKey, setLastKey] = useState(urlKey);
-  const [sel, setSel] = useState<Record<string, string[]>>({
-    category: query.category,
-    industry: query.industry,
-    machine: query.machine,
-  });
+  const [sel, setSel] = useState<Record<string, string[]>>({ category: query.category });
   if (urlKey !== lastKey) {
     setLastKey(urlKey);
-    setSel({ category: query.category, industry: query.industry, machine: query.machine });
+    setSel({ category: query.category });
   }
 
   function toggle(name: string, value: string, on: boolean) {
@@ -67,9 +59,9 @@ export function CatalogFilters({
     startTransition(() => router.replace(qs ? `/products?${qs}` : "/products", { scroll: false }));
   }
 
-  const group = (legend: string, name: string, opts: Option[], hideLegend = false) => (
+  const group = (legend: string, name: string, opts: Option[]) => (
     <fieldset>
-      <legend className={hideLegend ? "visually-hidden" : "label"}>{legend}</legend>
+      <legend className="label">{legend}</legend>
       {opts.map((o) => (
         <label key={o.value} className="filter-opt">
           <input
@@ -113,7 +105,7 @@ export function CatalogFilters({
             name="q"
             value={text}
             maxLength={80}
-            placeholder="e.g. rebar, slitting, 4 edge"
+            placeholder="e.g. slitting, punch, marking"
             onChange={(e) => {
               setText(e.target.value);
               window.clearTimeout(debounce.current);
@@ -122,14 +114,7 @@ export function CatalogFilters({
           />
         </div>
       </div>
-      {group("Blade type", "category", categories)}
-      {group("Industry", "industry", industries)}
-      <details className="filter-group" open={query.machine.length > 0}>
-        <summary className="label" style={{ paddingBottom: 10, borderBottom: "1px solid var(--line)", marginBottom: 8 }}>
-          Machine type {query.machine.length > 0 ? `(${query.machine.length})` : "+"}
-        </summary>
-        {group("Machine type", "machine", machines, true)}
-      </details>
+      {group("Product type", "category", categories)}
       <div className="filters__actions no-js-only">
         <button type="submit" className="btn btn--sm">
           Apply filters

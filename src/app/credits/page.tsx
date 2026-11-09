@@ -17,7 +17,7 @@ export default function CreditsPage() {
         crumbs={[{ href: "/credits", label: "Photo credits" }]}
         label="Photo credits"
         title="Photographs on this site"
-        lede="The photographs show the industries and machines our blades serve. They are used under the licences below, with thanks to their authors; they do not depict S.K. Kalsi's own works."
+        lede="The photographs illustrate metalworking in general. They are used under the licences below, with thanks to their authors; they do not depict S.S. Kalsi Industries' own works."
       />
       <section className="section section--tight">
         <div className="wrap">

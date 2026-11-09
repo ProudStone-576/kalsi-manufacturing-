@@ -10,7 +10,6 @@ import { ArrowRight, BrandMark, CloseIcon, ListIcon, MenuIcon, SearchIcon } from
 
 export const NAV = [
   { href: "/products", label: "Products" },
-  { href: "/industries", label: "Industries" },
   { href: "/manufacturing", label: "Manufacturing & Quality" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },

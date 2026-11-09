@@ -5,13 +5,10 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { setTimeout as sleep } from "node:timers/promises";
 
-const UA = { "User-Agent": "sk-kalsi-website/1.0 (image fetch)" };
+const UA = { "User-Agent": "ss-kalsi-website/1.0 (image fetch)" };
 
 /** name → Commons file title. All are CC0 / public domain / CC BY / CC BY-SA (commercial use allowed with credit). */
 const PHOTOS = {
-  "rolling-mill-hot-bar": "File:Huta Pokój walcownia 2019 (2).jpg",
-  "rolling-mill-glow": "File:Huta Pokój walcownia 2019 (4).jpg",
-  "plate-mill-descaler": "File:Zunderwäscher Grobblechstraße.jpg",
   "guillotine-shear-blade": "File:Gasparini sheet metal hydraulic guillotine power shear.jpg",
   "grinding-sparks": "File:Peça acer planejada amb rectificadora.jpg",
   "surface-grinder": "File:FlickGrinder.jpg",
@@ -19,11 +16,6 @@ const PHOTOS = {
   "fabrication-cutting": "File:Steel iron construction worker - 8378.jpg",
   "fabrication-sparks": "File:Steel iron construction worker - 8338.jpg",
   "steel-coils": "File:Leeco Steel Trading - Coils.jpg",
-  "scrap-shear-jaw": "File:POL tanks demolition and recycling 140918-A-BD610-025.jpg",
-  "scrap-shear-cut": "File:POL tanks demolition and recycling 140918-A-BD610-063.jpg",
-  "scrap-yard": "File:Scrap metal junk yard, Winschoten (2017) 03.jpg",
-  "plastic-regrind": "File:Clean-HDPE-drum-flakes.jpg",
-  "paper-cutter": "File:Industrial paper cutting machine trichy.jpg",
 };
 
 const strip = (s = "") => s.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { categoryById, type Product } from "@/content/products";
-import { BladeDrawing } from "./BladeDrawing";
+import { ToolDrawing } from "./ToolDrawing";
 import { ArrowRight } from "./icons";
 
 export function ProductCard({ product, headingLevel = 3 }: { product: Product; headingLevel?: 2 | 3 }) {
@@ -8,7 +8,7 @@ export function ProductCard({ product, headingLevel = 3 }: { product: Product; h
   return (
     <article className="p-card">
       <div className="p-card__figure">
-        <BladeDrawing id={product.drawing} title={product.name} />
+        <ToolDrawing id={product.drawing} title={product.name} />
       </div>
       <div className="p-card__body">
         <p className="label">{categoryById[product.category].name}</p>
@@ -17,9 +17,7 @@ export function ProductCard({ product, headingLevel = 3 }: { product: Product; h
         </H>
         <p className="p-card__summary">{product.summary}</p>
         <div className="p-card__meta">
-          <span className="label">
-            {product.machines.length} machine type{product.machines.length === 1 ? "" : "s"}
-          </span>
+          <span className="label">View details</span>
           <span className="p-card__go" aria-hidden="true">
             <ArrowRight />
           </span>

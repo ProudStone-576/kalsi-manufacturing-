@@ -64,7 +64,7 @@ export function loadConfig(env: Record<string, string | undefined> = process.env
       transport,
       ready: mailProblems.length === 0,
       missing: mailProblems,
-      from: e.MAIL_FROM ?? "S.K. Kalsi Website <no-reply@localhost>",
+      from: e.MAIL_FROM ?? "S.S. Kalsi Industries Website <no-reply@localhost>",
       to: recipients.length ? recipients : ["enquiries@localhost"],
       smtp: {
         host: e.SMTP_HOST ?? "",

@@ -1,24 +1,21 @@
 import { products, categoryById } from "@/content/products";
-import { industries } from "@/content/industries";
-import { materials } from "@/content/materials";
 import { tokenize } from "./catalog";
 
 export type SearchEntry = {
   id: string;
   title: string;
-  kind: "Product" | "Industry" | "Page" | "Material";
+  kind: "Product" | "Page";
   href: string;
   description: string;
   text: string;
 };
 
 const pages: Omit<SearchEntry, "text">[] = [
-  { id: "page-home", title: "Home", kind: "Page", href: "/", description: "Shearing blades made to drawing." },
-  { id: "page-products", title: "Product catalogue", kind: "Page", href: "/products", description: "Browse every blade type." },
-  { id: "page-industries", title: "Industries served", kind: "Page", href: "/industries", description: "Blades by industry and application." },
-  { id: "page-manufacturing", title: "Manufacturing & quality", kind: "Page", href: "/manufacturing", description: "How a shear blade is made and checked." },
-  { id: "page-about", title: "About S.K. Kalsi", kind: "Page", href: "/about", description: "Who we are and how we work." },
-  { id: "page-contact", title: "Contact & request a quote", kind: "Page", href: "/contact", description: "Send a drawing or ask a question." },
+  { id: "page-home", title: "Home", kind: "Page", href: "/", description: "Precision tools built to cut and mark." },
+  { id: "page-products", title: "Product catalogue", kind: "Page", href: "/products", description: "Browse every product." },
+  { id: "page-manufacturing", title: "Manufacturing & quality", kind: "Page", href: "/manufacturing", description: "Tool steel, heat treatment and precision grinding." },
+  { id: "page-about", title: "About S.S. Kalsi Industries", kind: "Page", href: "/about", description: "Who we are, what we make and our mission." },
+  { id: "page-contact", title: "Contact & request a quote", kind: "Page", href: "/contact", description: "Send a drawing, sample or specification, or ask a question." },
 ];
 
 export const searchIndex: SearchEntry[] = [
@@ -28,23 +25,7 @@ export const searchIndex: SearchEntry[] = [
     kind: "Product" as const,
     href: `/products/${p.slug}`,
     description: p.summary,
-    text: [p.name, p.summary, categoryById[p.category].name, ...p.machines, ...p.keywords].join(" "),
-  })),
-  ...industries.map((i) => ({
-    id: `industry-${i.id}`,
-    title: i.name,
-    kind: "Industry" as const,
-    href: `/industries#${i.id}`,
-    description: i.summary,
-    text: [i.name, i.short, i.summary].join(" "),
-  })),
-  ...materials.map((m) => ({
-    id: `material-${m.id}`,
-    title: `${m.name} tool steel`,
-    kind: "Material" as const,
-    href: `/manufacturing#materials`,
-    description: m.family,
-    text: [m.name, m.designations, m.family, m.suits].join(" "),
+    text: [p.name, p.summary, categoryById[p.category].name, ...p.uses, ...p.keywords].join(" "),
   })),
   ...pages.map((p) => ({ ...p, text: `${p.title} ${p.description}` })),
 ];

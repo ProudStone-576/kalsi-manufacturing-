@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { products } from "@/content/products";
 
-/** Continuous ticker of blade types. Duplicated once for a seamless loop; static with reduced motion. */
+/** Continuous ticker of products. Duplicated once for a seamless loop; static with reduced motion. */
 export function Ticker() {
   const items = products.map((p) => (
     <li key={p.slug}>
@@ -9,7 +9,7 @@ export function Ticker() {
     </li>
   ));
   return (
-    <nav className="ticker" aria-label="Blade types">
+    <nav className="ticker" aria-label="Products">
       <div className="ticker__track">
         <ul>{items}</ul>
         <ul aria-hidden="true">

@@ -1,19 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { catalogHref, filterProducts, parseCatalogQuery } from "@/lib/catalog";
 import { search } from "@/lib/search";
-import { products, relatedProducts } from "@/content/products";
-import { industries } from "@/content/industries";
-import { materials } from "@/content/materials";
+import { categories, products, relatedProducts } from "@/content/products";
 
 describe("catalogue query parsing", () => {
   it("keeps only known values from untrusted params", () => {
     const q = parseCatalogQuery({
-      q: "  rebar\u0000 ",
-      category: ["rolling-mill", "<script>"],
-      industry: "steel-mills,nope",
-      machine: "Cold shears",
+      q: "  punch\u0000 ",
+      category: ["piercing-punches", "<script>"],
+      industry: "steel-mills",
     });
-    expect(q).toEqual({ q: "rebar", category: ["rolling-mill"], industry: ["steel-mills"], machine: ["Cold shears"] });
+    expect(q).toEqual({ q: "punch", category: ["piercing-punches"] });
   });
 
   it("truncates very long search text", () => {
@@ -22,40 +19,37 @@ describe("catalogue query parsing", () => {
 });
 
 describe("filtering", () => {
-  const empty = { q: "", category: [], industry: [], machine: [] };
+  const empty = { q: "", category: [] };
 
   it("returns everything with no filters", () => {
     expect(filterProducts(empty)).toHaveLength(products.length);
   });
 
-  it("filters by category, industry and machine (AND across groups, OR within)", () => {
-    const mills = filterProducts({ ...empty, category: ["rolling-mill"] });
-    expect(mills.map((p) => p.slug)).toEqual(["hot-crop-and-flying-shear-blades", "billet-and-bloom-shear-blades", "bar-and-rebar-shear-blades"]);
-    const both = filterProducts({ ...empty, category: ["rolling-mill", "paper-converting"] });
-    expect(both).toHaveLength(4);
-    const recyclingMills = filterProducts({ ...empty, category: ["rolling-mill"], industry: ["recycling"] });
-    expect(recyclingMills.map((p) => p.slug)).toEqual(["billet-and-bloom-shear-blades"]);
+  it("filters by category (OR within the group)", () => {
+    const cutters = filterProducts({ ...empty, category: ["trimming-slitting"] });
+    expect(cutters.map((p) => p.slug)).toEqual(["trimming-cutters", "slitting-cutters"]);
+    const both = filterProducts({ ...empty, category: ["trimming-slitting", "steel-stamps"] });
+    expect(both).toHaveLength(3);
   });
 
   it("matches text by word prefix across all tokens", () => {
-    expect(filterProducts({ ...empty, q: "rebar" }).map((p) => p.slug)).toContain("bar-and-rebar-shear-blades");
-    expect(filterProducts({ ...empty, q: "slit knif" }).map((p) => p.slug)).toContain("rotary-slitter-knives");
+    expect(filterProducts({ ...empty, q: "decoiler" }).map((p) => p.slug)).toEqual(["slitting-cutters"]);
+    expect(filterProducts({ ...empty, q: "pierc punch" }).map((p) => p.slug)).toContain("steel-piercing-punches");
     expect(filterProducts({ ...empty, q: "zzzz" })).toHaveLength(0);
   });
 
   it("builds shareable URLs", () => {
-    expect(catalogHref({ category: ["recycling"], q: "scrap" })).toBe("/products?q=scrap&category=recycling");
+    expect(catalogHref({ category: ["steel-stamps"], q: "coding" })).toBe("/products?q=coding&category=steel-stamps");
     expect(catalogHref({})).toBe("/products");
   });
 });
 
 describe("site search", () => {
   it("ranks title matches first", () => {
-    const r = search("granulator");
-    expect(r[0]?.href).toBe("/products/granulator-knives");
+    const r = search("stamps");
+    expect(r[0]?.href).toBe("/products/steel-stamps");
   });
-  it("finds materials and pages", () => {
-    expect(search("H13").some((e) => e.kind === "Material")).toBe(true);
+  it("finds pages", () => {
     expect(search("contact").some((e) => e.href === "/contact")).toBe(true);
   });
   it("returns nothing for empty input", () => {
@@ -64,19 +58,17 @@ describe("site search", () => {
 });
 
 describe("content integrity", () => {
-  it("has unique slugs and valid references", () => {
+  it("has unique slugs and valid categories", () => {
     const slugs = products.map((p) => p.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
-    const ind = new Set(industries.map((i) => i.id));
-    const mat = new Set(materials.map((m) => m.id));
+    const cats = new Set(categories.map((c) => c.id));
     for (const p of products) {
       expect(p.slug).toMatch(/^[a-z0-9-]+$/);
-      for (const i of p.industries) expect(ind.has(i), `${p.slug}: ${i}`).toBe(true);
-      for (const g of p.grades) expect(mat.has(g), `${p.slug}: ${g}`).toBe(true);
+      expect(cats.has(p.category), p.slug).toBe(true);
     }
   });
-  it("every industry has at least one product", () => {
-    for (const i of industries) expect(products.some((p) => p.industries.includes(i.id)), i.id).toBe(true);
+  it("every category has at least one product", () => {
+    for (const c of categories) expect(products.some((p) => p.category === c.id), c.id).toBe(true);
   });
   it("related products exclude the product itself", () => {
     for (const p of products) expect(relatedProducts(p).some((r) => r.slug === p.slug)).toBe(false);

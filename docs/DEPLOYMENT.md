@@ -67,7 +67,7 @@ Run with systemd (`/etc/systemd/system/sk-kalsi.service`):
 
 ```ini
 [Unit]
-Description=S.K. Kalsi website
+Description=S.S. Kalsi Industries website
 After=network.target
 
 [Service]

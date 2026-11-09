@@ -5,7 +5,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { search, searchIndex, type SearchEntry } from "@/lib/search";
 import { CloseIcon, SearchIcon } from "./icons";
 
-const SUGGESTED = ["page-products", "product-guillotine-shear-blades", "product-hot-crop-and-flying-shear-blades", "page-contact"];
+const SUGGESTED = ["page-products", "product-shearing-blades", "product-slitting-cutters", "page-contact"];
 
 export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -80,7 +80,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
           aria-controls={listId}
           aria-autocomplete="list"
           aria-activedescendant={results[active] ? `${listId}-${results[active].id}` : undefined}
-          placeholder="Search blades, machines, industries…"
+          placeholder="Search blades, cutters, punches, stamps…"
           value={q}
           maxLength={80}
           onChange={(e) => {
@@ -118,7 +118,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
         </ul>
       ) : (
         <p className="search-empty" role="status">
-          Nothing matches “{q}”. Press Enter to search the catalogue, or try a machine type such as “slitting line”.
+          Nothing matches “{q}”. Press Enter to search the catalogue, or try a product such as “punch”.
         </p>
       )}
       <div className="search-dialog__foot" aria-hidden="true">

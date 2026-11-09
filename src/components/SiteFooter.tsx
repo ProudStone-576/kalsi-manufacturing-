@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { company } from "@/content/company";
 import { categories } from "@/content/products";
-import { industries } from "@/content/industries";
 import { catalogHref } from "@/lib/catalog";
 import { ArrowRight, BrandMark } from "./icons";
 
@@ -14,8 +13,8 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="site-footer__cta">
           <div className="stack-sm">
-            <p className="eyebrow">Start with a drawing</p>
-            <p className="h2">Send us the blade you need. We will come back with a quotation.</p>
+            <p className="eyebrow">Drawing, sample or specification</p>
+            <p className="h2">Tell us the tool you need. We will work with you to find the right one.</p>
           </div>
           <div className="btn-row">
             <Link href="/contact?type=quote" className="btn btn--accent">
@@ -46,16 +45,6 @@ export function SiteFooter() {
               {categories.map((c) => (
                 <li key={c.id}>
                   <Link href={catalogHref({ category: [c.id] })}>{c.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2>Industries</h2>
-            <ul>
-              {industries.map((i) => (
-                <li key={i.id}>
-                  <Link href={`/industries#${i.id}`}>{i.short}</Link>
                 </li>
               ))}
             </ul>
@@ -94,7 +83,7 @@ export function SiteFooter() {
             © {year} {company.legalName ?? company.name}
             {company.registrations.map((r) => ` · ${r.label} ${r.value}`).join("")}
           </span>
-          <span>Blades made to drawing</span>
+          <span>Precision tools since {company.foundedYear}</span>
         </div>
       </div>
     </footer>

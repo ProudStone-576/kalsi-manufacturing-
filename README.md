@@ -1,6 +1,6 @@
-# S.K. Kalsi — website
+# S.S. Kalsi Industries — website
 
-Company website for **S.K. Kalsi, shearing blade manufacturer**: product catalogue, industries, manufacturing & quality, about, and a working enquiry / request-for-quotation system with drawing uploads and email delivery.
+Company website for **S.S. Kalsi Industries, manufacturer of precision industrial tools**: product catalogue, manufacturing & quality, about, and a working enquiry / request-for-quotation system with drawing uploads and email delivery.
 
 Built with Next.js 16 (App Router), React 19 and TypeScript (strict). No database server is required: enquiries are delivered by email and also written to an append-only log on disk.
 
@@ -22,14 +22,14 @@ Built with Next.js 16 (App Router), React 19 and TypeScript (strict). No databas
 | Area | What it does |
 | --- | --- |
 | Hero slide banner | Full-width photo carousel with four slides (rolling mills, plate shears, manufacturing, recycling): slow zoom, progress bars, arrows, numbered tabs, swipe, pause button; pauses on hover/focus and never auto-plays with reduced motion (WAI-ARIA carousel pattern). |
-| Photography | 15 real industrial photographs (rolling mills, plate shears, grinding, heat treatment, coil, scrap, plastics, paper) on the home page, every page banner, category and industry tiles, process stages and banners. Served by `next/image` as AVIF/WebP at the right size with blur placeholders. Credited on `/credits`. |
-| Catalogue | 12 blade types in 5 families. Filter by blade type, industry and machine type, plus free-text search. Filters live in the URL (shareable) and work without JavaScript. |
-| Product pages | Overview, specification table, grades commonly specified, "what we need to quote" checklist, related blades, technical illustration, structured data. |
+| Photography | 7 licensed industrial photographs (shearing, grinding, heat treatment, coil, fabrication) on the home page, page banners, category tiles and process stages. Served by `next/image` as AVIF/WebP with blur placeholders. Credited on `/credits`. |
+| Catalogue | 5 products in 4 families (shearing blades, trimming & slitting cutters, steel piercing punches, steel stamps). Filter by product type plus free-text search. Filters live in the URL (shareable) and work without JavaScript. |
+| Product pages | Overview, specification table, "what to send us" checklist, related products, technical illustration, structured data. |
 | Quote list | "Add to quote list" on any product; the list persists in the browser and is sent as one request with per-item quantities. |
 | Enquiry / RFQ form | General question or quote request; machine and blade fields; drag-and-drop drawings (PDF, PNG, JPG, DXF, DWG, STEP). Instant client-side validation, authoritative server-side validation, reference number on success. Works without JavaScript (falls back to a normal form post). |
 | Email | Each enquiry is emailed to the sales inbox via SMTP with drawings attached and Reply-To set to the customer. In development, emails are written as `.eml` files instead. |
-| Site search | `/` or `Ctrl/⌘ K` opens a keyboard-navigable search over products, industries, materials and pages. |
-| Pages | Home, Products, Product detail ×12, Industries, Manufacturing & Quality, About, Contact, Thank-you, Privacy, Photo credits, 404, error. |
+| Site search | `/` or `Ctrl/⌘ K` opens a keyboard-navigable search over products and pages. |
+| Pages | Home, Products, Product detail ×5, Manufacturing & Quality, About, Contact, Thank-you, Privacy, Photo credits, 404, error. |
 | SEO | Per-page metadata and canonical URLs, Open Graph, `sitemap.xml`, `robots.txt`, JSON-LD (Organization, BreadcrumbList, Product). |
 | Accessibility | WCAG 2.1 AA checked with axe on every page; skip link, landmarks, labelled controls, focus management on errors, reduced-motion support. |
 | Security | Nonce-based CSP, hardened headers, CSRF origin check, rate limiting, body-size cap, schema validation, magic-byte file checks, honeypot, no secrets in code. See [docs/SECURITY.md](docs/SECURITY.md). |
@@ -103,8 +103,6 @@ src/
   content/                All site copy and data — edit here, not in components
     company.ts            Company facts (empty until confirmed; see below)
     products.ts           Product range and categories
-    industries.ts         Industries served
-    materials.ts          Tool-steel reference
     process.ts            Ordering steps, manufacturing stages, FAQ
     images.ts             Photo set and where each photo is used (+ image-credits.json)
 public/images/            Photographs (2000 px masters; resized per device by next/image)
@@ -116,18 +114,17 @@ tests/
 docs/                     Deployment, security, research
 ```
 
-Design notes: photography carries the mood (hot steel, sparks, heavy machines) and technical drawings carry the precision — each blade type has its own engineering-style SVG drawing (`src/components/BladeDrawing.tsx`). Accent colours are temper colours (the straw-to-blue oxide colours of tempered steel). Typography: Archivo (display, using its width axis), IBM Plex Sans (text) and IBM Plex Mono (labels), self-hosted by `next/font`.
+Design notes: photography carries the mood (hot steel, sparks, heavy machines) and technical drawings carry the precision — each product has its own engineering-style SVG drawing (`src/components/ToolDrawing.tsx`). Accent colours are temper colours (the straw-to-blue oxide colours of tempered steel). Typography: Archivo (display, using its width axis), IBM Plex Sans (text) and IBM Plex Mono (labels), self-hosted by `next/font`.
 
 ## Content to confirm before launch
 
 The brief was explicit: **do not invent company information, certifications or technical specifications.** Only the company name and trade were known, so:
 
-1. **Company facts are empty** in [`src/content/company.ts`](src/content/company.ts) — legal name, year established, phone, public email, WhatsApp, addresses, certifications, registration numbers (GSTIN etc.), business hours and social links. The UI shows each item only once it has a value, so the site is complete without them and grows as they are filled in. Add at least a phone number or email so visitors have a fallback when the form is unavailable.
-2. **Product range** ([`src/content/products.ts`](src/content/products.ts)) lists standard industry blade types. Remove any type S.K. Kalsi does not make, and add any that are missing. No dimensions, hardness values or tolerances are claimed; product pages say these are agreed per drawing.
-3. **Materials** ([`src/content/materials.ts`](src/content/materials.ts)) is a general tool-steel reference (designations and typical uses are standard metallurgy), labelled as such on the site. Remove grades the company does not work with.
-4. **Process wording** ([`src/content/process.ts`](src/content/process.ts)) and the About page "How we work" principles describe the normal made-to-drawing workflow (review, written quotation, inspection before dispatch). Adjust them so they match exactly how the company works.
-5. **Privacy notice** ([`src/app/privacy/page.tsx`](src/app/privacy/page.tsx)) describes what the code actually does. Have it reviewed for your jurisdiction (e.g. India's DPDP Act 2023, GDPR for EU customers) and add a retention period.
-6. **Photography** — the site uses 15 real photographs from Wikimedia Commons (CC BY / CC BY-SA / public domain, commercial use allowed with credit). They show the industries and machines the blades serve, **not S.K. Kalsi's own works**, and the `/credits` page says so and credits each author as the licences require. Nothing was taken from competitor sites and no AI-generated images are used. Replace them with the company's own photographs (works, machines, finished blades, team) as soon as possible — that is the single biggest upgrade available: put the files in `public/images/`, point the entries in `src/content/images.ts` at them, and remove the replaced entries from `image-credits.json`. `scripts/fetch-images.mjs` re-downloads the current set.
+1. **Company facts** in [`src/content/company.ts`](src/content/company.ts) — name and year established (2010) are filled in. Legal name, phone, public email, WhatsApp, addresses, certifications, registration numbers (GSTIN etc.), business hours and social links are still empty. The UI shows each item only once it has a value. Add at least a phone number or email so visitors have a fallback when the form is unavailable.
+2. **Product range** ([`src/content/products.ts`](src/content/products.ts)) is taken from the company's own description. No dimensions, hardness values or tolerances are claimed.
+3. **Process wording** ([`src/content/process.ts`](src/content/process.ts)) is taken from the company's own About text.
+4. **Privacy notice** ([`src/app/privacy/page.tsx`](src/app/privacy/page.tsx)) describes what the code actually does. Have it reviewed for your jurisdiction (e.g. India's DPDP Act 2023, GDPR for EU customers) and add a retention period.
+5. **Photography** — the site uses 7 real photographs from Wikimedia Commons (CC BY / CC BY-SA / public domain, commercial use allowed with credit). They illustrate metalworking in general, **not S.S. Kalsi Industries' own works**, and the `/credits` page says so and credits each author as the licences require. Nothing was taken from competitor sites and no AI-generated images are used. Replace them with the company's own photographs (works, machines, finished tools, team) as soon as possible — that is the single biggest upgrade available: put the files in `public/images/`, point the entries in `src/content/images.ts` at them, and remove the replaced entries from `image-credits.json`. `scripts/fetch-images.mjs` re-downloads the current set.
 
 ## Testing
 

@@ -5,7 +5,7 @@ import { mkdir } from "node:fs/promises";
 
 const base = process.argv[2] ?? "http://localhost:3400";
 const out = process.argv[3] ?? "screenshots";
-const pages = ["/", "/credits", "/products", "/products/guillotine-shear-blades", "/industries", "/manufacturing", "/about", "/contact?type=quote", "/privacy", "/does-not-exist"];
+const pages = ["/", "/credits", "/products", "/products/shearing-blades", "/manufacturing", "/about", "/contact?type=quote", "/privacy", "/does-not-exist"];
 const sizes = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, height: 844 } };
 
 await mkdir(out, { recursive: true });

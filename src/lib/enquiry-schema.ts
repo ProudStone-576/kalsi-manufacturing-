@@ -86,11 +86,11 @@ export const enquirySchema = z
       ),
     items: z.array(enquiryItemSchema).max(MAX_ITEMS, `Up to ${MAX_ITEMS} products per request.`).default([]),
     machine: optionalLine("Machine", 120),
-    materialCut: optionalLine("Material being cut", 120),
+    materialCut: optionalLine("Material worked", 120),
     materialThickness: optionalMm("Material thickness", 1000),
-    bladeLength: optionalMm("Blade length", 20_000),
-    bladeWidth: optionalMm("Blade width", 2_000),
-    bladeThickness: optionalMm("Blade thickness", 500),
+    bladeLength: optionalMm("Tool length", 20_000),
+    bladeWidth: optionalMm("Tool width", 2_000),
+    bladeThickness: optionalMm("Tool thickness", 500),
     cuttingEdges: z.enum(EDGE_OPTIONS, { error: "Choose a number of edges." }).default(""),
     consent: z.literal("yes", { error: "Please agree so we can reply to you." }),
   })
@@ -99,7 +99,7 @@ export const enquirySchema = z
       ctx.addIssue({
         code: "custom",
         path: ["items"],
-        message: "Add at least one blade, or give the machine or blade length, so we can quote.",
+        message: "Add at least one product, or give the machine or tool length, so we can quote.",
       });
     }
     const slugs = v.items.map((i) => i.slug);

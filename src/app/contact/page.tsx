@@ -9,7 +9,7 @@ import { photos } from "@/content/images";
 
 export const metadata: Metadata = {
   title: "Contact & request a quote",
-  description: `Send ${company.name} a drawing, photos or measurements of the shear blade you need, or ask a question.`,
+  description: `Send ${company.name} a drawing, sample or specification of the tool you need, or ask a question.`,
   alternates: { canonical: "/contact" },
 };
 
@@ -51,9 +51,9 @@ export default async function ContactPage({ searchParams }: Props) {
       <PageHead
         crumbs={[{ href: "/contact", label: "Contact" }]}
         label="Contact & quotations"
-        title="Tell us about the blade you need"
-        lede="Send a drawing, or photos and measurements of the blade you use now. Questions about grades, regrinding or anything else are welcome too."
-        photo={photos.plateMill}
+        title="Tell us about the tool you need"
+        lede="Send a drawing, a sample or your specification. We work with you to find the right tool for your machine and material."
+        photo={photos.surfaceGrinder}
       />
       <section className="section section--tight">
         <div className="wrap contact-layout">
@@ -132,8 +132,7 @@ export default async function ContactPage({ searchParams }: Props) {
               <h2 className="h3">What happens next</h2>
               <ol className="check-list" style={{ listStyle: "none" }}>
                 <li>You get a reference number as soon as the form is sent.</li>
-                <li>We review the drawing and application, and ask if anything is unclear.</li>
-                <li>You receive a written quotation stating the specification it is based on.</li>
+                <li>We review your requirement and reply by email.</li>
               </ol>
             </div>
 

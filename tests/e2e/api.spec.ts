@@ -21,7 +21,7 @@ test.describe("enquiry API", () => {
   test("accepts a valid enquiry", async ({ request, baseURL }) => {
     const res = await post(request, baseURL!, { multipart: valid });
     expect(res.status()).toBe(201);
-    expect(await res.json()).toMatchObject({ ok: true, reference: expect.stringMatching(/^SKK-/) });
+    expect(await res.json()).toMatchObject({ ok: true, reference: expect.stringMatching(/^SSK-/) });
     expect(res.headers()["cache-control"]).toContain("no-store");
   });
 
@@ -114,7 +114,7 @@ test.describe("security headers", () => {
 
   test("sitemap and robots are served", async ({ request }) => {
     const sm = await (await request.get("/sitemap.xml")).text();
-    expect(sm).toContain("/products/guillotine-shear-blades");
+    expect(sm).toContain("/products/shearing-blades");
     expect(await (await request.get("/robots.txt")).text()).toContain("Disallow: /api/");
   });
 });

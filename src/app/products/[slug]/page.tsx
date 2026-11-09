@@ -2,18 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHead } from "@/components/PageHead";
-import { BladeDrawing } from "@/components/BladeDrawing";
+import { ToolDrawing } from "@/components/ToolDrawing";
 import { ProductCard } from "@/components/ProductCard";
 import { AddToQuoteButton } from "@/components/AddToQuoteButton";
 import { JsonLd } from "@/components/JsonLd";
 import { ArrowRight } from "@/components/icons";
 import { categoryById, productBySlug, products, relatedProducts } from "@/content/products";
-import { industryById } from "@/content/industries";
-import { materialById } from "@/content/materials";
 import { company } from "@/content/company";
 import { catalogHref } from "@/lib/catalog";
 import { siteOrigin } from "@/lib/config";
 import { categoryPhoto } from "@/content/images";
+import { QUOTE_CHECKLIST } from "@/content/process";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {};
   return {
     title: p.name,
-    description: `${p.summary} Made to drawing by ${company.name}.`,
+    description: `${p.summary} Made by ${company.name}.`,
     alternates: { canonical: `/products/${p.slug}` },
     openGraph: { title: `${p.name} · ${company.name}`, description: p.summary },
   };
@@ -76,22 +75,8 @@ export default async function ProductPage({ params }: Props) {
               <table className="spec-table">
                 <tbody>
                   <tr>
-                    <th scope="row">Used on</th>
-                    <td>{p.machines.join(", ")}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Industries</th>
-                    <td>
-                      <ul className="tag-list">
-                        {p.industries.map((i) => (
-                          <li key={i}>
-                            <Link className="tag" href={`/industries#${i}`}>
-                              {industryById[i].short}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </td>
+                    <th scope="row">Used for</th>
+                    <td>{p.uses.join(", ")}</td>
                   </tr>
                   {p.options.map((o) => (
                     <tr key={o.label}>
@@ -100,25 +85,8 @@ export default async function ProductPage({ params }: Props) {
                     </tr>
                   ))}
                   <tr>
-                    <th scope="row">Dimensions</th>
-                    <td>Made to your drawing or sample.</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Grades often specified</th>
-                    <td>
-                      <ul className="tag-list">
-                        {p.grades.map((g) => (
-                          <li key={g}>
-                            <Link className="tag" href="/manufacturing#materials" title={materialById[g].family}>
-                              {materialById[g].name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="notice" style={{ marginTop: 10 }}>
-                        Grade and hardness are confirmed against your application at quotation.
-                      </p>
-                    </td>
+                    <th scope="row">Material</th>
+                    <td>High-grade tool steel, heat-treated and precision-ground.</td>
                   </tr>
                 </tbody>
               </table>
@@ -127,7 +95,7 @@ export default async function ProductPage({ params }: Props) {
 
           <aside className="stack sticky-aside" aria-label="Drawing and quote">
             <figure className="drawing-frame" style={{ margin: 0 }}>
-              <BladeDrawing id={p.drawing} title={p.name} />
+              <ToolDrawing id={p.drawing} title={p.name} />
               <figcaption className="drawing-frame__title">
                 <span>{p.name}</span>
                 <span>Illustrative · not to scale</span>
@@ -136,7 +104,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="quote-panel">
               <h2 className="h3">What we need to quote</h2>
               <ul className="check-list">
-                {p.quoteNeeds.map((n) => (
+                {QUOTE_CHECKLIST.map((n) => (
                   <li key={n}>{n}</li>
                 ))}
               </ul>
@@ -155,7 +123,7 @@ export default async function ProductPage({ params }: Props) {
           <div className="wrap">
             <div className="section-head section-head--split">
               <h2 id="related-title" className="h2">
-                Related blades
+                Related products
               </h2>
               <div>
                 <Link href={catalogHref({ category: [p.category] })} className="link-arrow">

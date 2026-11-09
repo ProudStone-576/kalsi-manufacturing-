@@ -29,11 +29,11 @@ export function enquiryRows(rec: EnquiryRecord): Row[] {
     ["Phone", e.phone],
     ["Country", e.country],
     ["Machine", e.machine],
-    ["Material being cut", e.materialCut],
+    ["Material worked", e.materialCut],
     ["Material thickness", mm(e.materialThickness)],
-    ["Blade length", mm(e.bladeLength)],
-    ["Blade width", mm(e.bladeWidth)],
-    ["Blade thickness", mm(e.bladeThickness)],
+    ["Tool length", mm(e.bladeLength)],
+    ["Tool width", mm(e.bladeWidth)],
+    ["Tool thickness", mm(e.bladeThickness)],
     ["Cutting edges", e.cuttingEdges === "unsure" ? "Not sure" : e.cuttingEdges],
   ];
   return rows.filter(([, v]) => v !== "");
@@ -47,7 +47,7 @@ export function buildEnquiryEmail(rec: EnquiryRecord) {
 
   const text = [
     ...rows.map(([k, v]) => `${k}: ${v}`),
-    ...(items.length ? ["", "Blades:", ...items.map((s) => `  - ${s}`)] : []),
+    ...(items.length ? ["", "Products:", ...items.map((s) => `  - ${s}`)] : []),
     "",
     "Message:",
     e.message,
@@ -60,7 +60,7 @@ export function buildEnquiryEmail(rec: EnquiryRecord) {
 <table style="border-collapse:collapse;font-size:14px">${rows
     .map(([k, v]) => `<tr><th align="left" ${td}>${escapeHtml(k)}</th><td ${td}>${escapeHtml(v)}</td></tr>`)
     .join("")}</table>
-${items.length ? `<h3>Blades</h3><ul>${items.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}</ul>` : ""}
+${items.length ? `<h3>Products</h3><ul>${items.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}</ul>` : ""}
 <h3>Message</h3><p style="white-space:pre-wrap">${escapeHtml(e.message)}</p>
 ${files.length ? `<h3>Attached drawings</h3><ul>${files.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}</ul>` : ""}
 </body></html>`;

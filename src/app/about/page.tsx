@@ -4,32 +4,18 @@ import Link from "next/link";
 import { PageHead } from "@/components/PageHead";
 import { PhotoBand } from "@/components/PhotoBand";
 import { photos } from "@/content/images";
-import { BladeDrawing } from "@/components/BladeDrawing";
+import { ToolDrawing } from "@/components/ToolDrawing";
 import { ArrowRight } from "@/components/icons";
 import { company } from "@/content/company";
 import { categories, products } from "@/content/products";
-import { industries } from "@/content/industries";
+import { catalogHref } from "@/lib/catalog";
+import { CUSTOM_WORK, MAKING_RESULT, MISSION, WHY_CHOOSE_US } from "@/content/process";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${company.name} is a manufacturer of shearing blades, made to drawing for steel, fabrication, coil processing, recycling, plastics and paper.`,
+  description: `${company.name} manufactures precision tools for industrial use: shearing blades, trimming and slitting cutters, steel piercing punches and steel stamps.`,
   alternates: { canonical: "/about" },
 };
-
-const PRINCIPLES = [
-  {
-    title: "Made to your drawing",
-    body: "Machines differ, and so do the blades in them. We work from your drawing, your sample or your measurements — not from a fixed list of sizes.",
-  },
-  {
-    title: "The grade fits the job",
-    body: "We ask what you cut, how thick it is and how the machine runs, and recommend a grade on that basis. If something on a drawing looks wrong for the application, we say so before we quote.",
-  },
-  {
-    title: "Clear quotations",
-    body: "A quotation states the specification it is based on, so you know exactly what you are buying and can compare it fairly.",
-  },
-];
 
 export default function AboutPage() {
   const facts = [
@@ -43,56 +29,91 @@ export default function AboutPage() {
     <>
       <PageHead
         crumbs={[{ href: "/about", label: "About" }]}
-        label={`About ${company.name}`}
-        title="We make the blades that do the cutting"
-        lede={`${company.name} manufactures shearing blades — for the machines that cut steel, sheet, scrap, plastic and paper — to the drawing or sample our customers send.`}
-        photo={photos.fabricationCutting}
+        label="About us"
+        title={`${company.name}: precision tools built to cut and mark`}
+        lede={`${company.name} manufactures precision tools for industrial use. Manufacturers across the globe rely on our tools to keep their production lines running accurately and efficiently.`}
+        photo={photos.grindingSparks}
       />
 
       <section className="section">
         <div className="wrap split">
           <div className="prose stack-sm">
-            <p className="eyebrow">What we do</p>
-            <h2 className="h2">One trade, done properly.</h2>
+            <p className="eyebrow">Since {company.foundedYear}</p>
+            <h2 className="h2">A tool should do its job cleanly, consistently and for a long time.</h2>
             <p>
-              A shear blade looks simple: a bar of hardened steel with a sharp edge. In service it is anything but. It
-              has to stay straight along its whole length, keep its edge through thousands of cuts and survive the
-              shock of every stroke without chipping.
+              Since {company.foundedYear}, we&apos;ve built our name on that one principle. Every blade, cutter, punch and
+              stamp we make is produced from carefully selected tool steel. Each one is heat-treated for the right balance
+              of hardness and toughness, then precision-ground to tight tolerances.
             </p>
-            <p>
-              Our range covers {products.length} blade types across {categories.length} families — from guillotine
-              blades for plate shears to hot shear blades for rolling mills, slitter knives for coil lines and knives
-              for recycling machines — serving {industries.length} industries.
-            </p>
+            <p>{MAKING_RESULT}</p>
           </div>
           <div className="photo-stack" data-reveal>
             <div className="photo-stack__main">
-              <Image src={photos.grindingSparks.src} alt={photos.grindingSparks.alt} fill sizes="(max-width: 900px) 100vw, 50vw" placeholder="blur" quality={70} />
+              <Image src={photos.surfaceGrinder.src} alt={photos.surfaceGrinder.alt} fill sizes="(max-width: 900px) 100vw, 50vw" placeholder="blur" quality={70} />
             </div>
             <div className="photo-stack__card">
-              <BladeDrawing id="slitter" title="Rotary slitter knife and spacer" />
-              <p className="photo-stack__caption">Slitter knife &amp; spacer · illustrative</p>
+              <ToolDrawing id="punch" title="Steel piercing punch" />
+              <p className="photo-stack__caption">Piercing punch · illustrative</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section section--white section--rule" aria-labelledby="principles-title">
+      <section className="section section--white section--rule" aria-labelledby="make-title">
+        <div className="wrap">
+          <div className="section-head section-head--split">
+            <div className="stack-sm">
+              <p className="eyebrow">What we make</p>
+              <h2 id="make-title" className="h2">
+                Our products
+              </h2>
+            </div>
+            <p className="lede">{CUSTOM_WORK}</p>
+          </div>
+          <ol className="steps">
+            {categories.map((c) => (
+              <li key={c.id}>
+                <h3>
+                  <Link href={catalogHref({ category: [c.id] })}>{c.name}</Link>
+                </h3>
+                <p>
+                  {products
+                    .filter((p) => p.category === c.id)
+                    .map((p) => p.summary)
+                    .join(" ")}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="section section--rule" aria-labelledby="why-title">
         <div className="wrap">
           <div className="section-head">
-            <p className="eyebrow">How we work</p>
-            <h2 id="principles-title" className="h2">
+            <p className="eyebrow">Why choose us</p>
+            <h2 id="why-title" className="h2">
               What you can expect from us
             </h2>
           </div>
           <ol className="steps">
-            {PRINCIPLES.map((p) => (
-              <li key={p.title}>
-                <h3>{p.title}</h3>
-                <p>{p.body}</p>
+            {WHY_CHOOSE_US.map((w) => (
+              <li key={w.title}>
+                <h3>{w.title}</h3>
+                <p>{w.body}</p>
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="section section--white section--rule" aria-labelledby="mission-title">
+        <div className="wrap prose stack-sm">
+          <p className="eyebrow">Our mission</p>
+          <h2 id="mission-title" className="h2">
+            Tools you can rely on.
+          </h2>
+          <p className="lede">{MISSION}</p>
         </div>
       </section>
 
@@ -116,18 +137,18 @@ export default function AboutPage() {
         </section>
       )}
 
-      <PhotoBand photo={photos.rollingMillGlow}>
+      <PhotoBand photo={photos.furnace}>
         <div className="split">
           <div className="stack-sm">
             <p className="eyebrow eyebrow--light">Next step</p>
-            <h2 className="h2">Tell us about the machine and the blade.</h2>
+            <h2 className="h2">Tell us the tool you need.</h2>
           </div>
           <div className="btn-row">
             <Link href="/contact?type=quote" className="btn btn--accent">
               Request a quote <ArrowRight />
             </Link>
             <Link href="/manufacturing" className="btn btn--light">
-              How blades are made
+              How our tools are made
             </Link>
           </div>
         </div>
